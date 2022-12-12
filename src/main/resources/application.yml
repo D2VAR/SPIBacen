@@ -1,0 +1,9 @@
+aws:
+  access:
+    key:
+      id: idAWSDynamoDB
+      secret: secretAWSDynamoDB
+dynamodb:
+  service:
+    region: sa-east-1
+    endpoint: localhost:8000
