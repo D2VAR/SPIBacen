@@ -11,11 +11,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChavePixResponse {
-    private Integer cod_banco;
-    private String numero_conta;
-    private Integer agencia_conta;
-    private String cpf_cnpj;
+    private Integer codBanco;
+    private String numeroConta;
+    private Integer agenciaConta;
+    private String cpfCnpj;
     private String nome;
-    private TipoChave tipo_chave;
-    private String valor_chave;
+    private TipoChave tipoChave;
+    private String valorChave;
 }

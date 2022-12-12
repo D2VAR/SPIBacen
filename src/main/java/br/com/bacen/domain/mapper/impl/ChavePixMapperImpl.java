@@ -31,13 +31,13 @@ public class ChavePixMapperImpl implements ChavePixMapper {
         }
 
         ChavePixResponse response = new ChavePixResponse();
-        response.setCod_banco(chavePix.getCodBanco());
-        response.setNumero_conta(chavePix.getNumeroConta());
-        response.setAgencia_conta(chavePix.getAgenciaConta());
-        response.setCpf_cnpj(chavePix.getCpfCnpj());
+        response.setCodBanco(chavePix.getCodBanco());
+        response.setNumeroConta(chavePix.getNumeroConta());
+        response.setAgenciaConta(chavePix.getAgenciaConta());
+        response.setCpfCnpj(chavePix.getCpfCnpj());
         response.setNome(chavePix.getNome());
-        response.setTipo_chave(chavePix.getTipoChave());
-        response.setValor_chave(chavePix.getValorChave());
+        response.setTipoChave(chavePix.getTipoChave());
+        response.setValorChave(chavePix.getValorChave());
 
         return response;
     }

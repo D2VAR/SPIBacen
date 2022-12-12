@@ -15,7 +15,7 @@ public class VerificacaoChavePixController {
 
     private final VerificacaoChavePixInputPort inputPort;
 
-    @GetMapping("verifica-chave/{valorchave}")
+    @GetMapping("/verifica-chave/{valorChave}")
     public ResponseEntity<ChavePixResponse> getChavePixByValor(@PathVariable String valorChave){
         log.info("Verificacao de Chave Pix - request: {}", valorChave);
         ChavePixResponse response = inputPort.findChavePixByValor(valorChave);

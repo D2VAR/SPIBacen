@@ -1,4 +1,4 @@
-package br.com.bacen.adapter.out.dynamo;
+package br.com.bacen.adapter.out;
 
 import br.com.bacen.adapter.out.dynamo.entity.ChavePixEntity;
 import br.com.bacen.adapter.out.dynamo.repository.ChavePixRepository;
