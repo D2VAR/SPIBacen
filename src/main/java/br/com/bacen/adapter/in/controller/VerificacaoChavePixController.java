@@ -1,5 +1,7 @@
 package br.com.bacen.adapter.in.controller;
 
+import br.com.bacen.domain.dto.ChavePixResponse;
+import br.com.bacen.port.in.VerificacaoChavePixInputPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
