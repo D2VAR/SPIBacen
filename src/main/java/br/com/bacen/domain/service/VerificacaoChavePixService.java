@@ -26,7 +26,7 @@ public class VerificacaoChavePixService implements VerificacaoChavePixInputPort 
         Optional<ChavePix> chavePix = databaseOutputPort.findChavePixByValor(valorChave);
 
         return chavePix
-                .map(mapper::domainToResponse)
+                .map(mapper::modelToResponse)
                 .orElseThrow(ChavePixNaoEncontradaException::new);
     }
 }

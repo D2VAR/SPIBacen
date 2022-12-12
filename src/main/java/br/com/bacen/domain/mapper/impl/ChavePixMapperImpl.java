@@ -8,24 +8,24 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ChavePixMapperImpl implements ChavePixMapper {
-    public ChavePix modelToDomain(ChavePixEntity model) {
-        if(model == null){
+    public ChavePix entityToModel(ChavePixEntity entity) {
+        if(entity == null){
             return null;
         }
 
         ChavePix chavePix = new ChavePix();
-        chavePix.setCodBanco(model.getCodBanco());
-        chavePix.setNumeroConta(model.getNumeroConta());
-        chavePix.setAgenciaConta(model.getAgenciaConta());
-        chavePix.setCpfCnpj(model.getCpfCnpj());
-        chavePix.setNome(model.getNome());
-        chavePix.setTipoChave(model.getTipoChave());
-        chavePix.setValorChave(model.getValorChave());
+        chavePix.setCodBanco(entity.getCodBanco());
+        chavePix.setNumeroConta(entity.getNumeroConta());
+        chavePix.setAgenciaConta(entity.getAgenciaConta());
+        chavePix.setCpfCnpj(entity.getCpfCnpj());
+        chavePix.setNome(entity.getNome());
+        chavePix.setTipoChave(entity.getTipoChave());
+        chavePix.setValorChave(entity.getValorChave());
 
         return chavePix;
     }
 
-    public ChavePixResponse domainToResponse(ChavePix chavePix) {
+    public ChavePixResponse modelToResponse(ChavePix chavePix) {
         if(chavePix == null){
             return null;
         }

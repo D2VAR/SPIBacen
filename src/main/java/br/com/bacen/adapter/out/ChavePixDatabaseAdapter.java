@@ -6,10 +6,12 @@ import br.com.bacen.domain.mapper.ChavePixMapper;
 import br.com.bacen.domain.model.ChavePix;
 import br.com.bacen.port.out.DatabaseOutputPort;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ChavePixDatabaseAdapter implements DatabaseOutputPort {
@@ -18,8 +20,9 @@ public class ChavePixDatabaseAdapter implements DatabaseOutputPort {
     private final ChavePixMapper mapper;
 
     @Override
-    public Optional<ChavePix> findChavePixByValor(String valor_chave) {
-        Optional<ChavePixEntity> chavePix = repository.findChavePixByValorChave(valor_chave);
-        return chavePix.map(mapper::modelToDomain);
+    public Optional<ChavePix> findChavePixByValor(String valorChave) {
+        log.info("Busca chave pix por valor. Valor Chave: {}", valorChave);
+        Optional<ChavePixEntity> chavePix = repository.findChavePixByValorChave(valorChave);
+        return chavePix.map(mapper::entityToModel);
     }
 }

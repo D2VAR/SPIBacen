@@ -5,7 +5,7 @@ import br.com.bacen.domain.dto.ChavePixResponse;
 import br.com.bacen.domain.model.ChavePix;
 
 public interface ChavePixMapper {
-    ChavePix modelToDomain(ChavePixEntity model);
+    ChavePix entityToModel(ChavePixEntity entity);
 
-    ChavePixResponse domainToResponse(ChavePix chavePix);
+    ChavePixResponse modelToResponse(ChavePix chavePix);
 }
