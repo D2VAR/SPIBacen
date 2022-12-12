@@ -4,5 +4,5 @@ import br.com.bacen.domain.dto.ChavePixResponse;
 
 public interface VerificacaoChavePixInputPort {
 
-    ChavePixResponse findChavePixByValor(String valorchave);
+    ChavePixResponse findChavePixByValor(String valorChave);
 }
