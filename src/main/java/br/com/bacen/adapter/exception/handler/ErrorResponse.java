@@ -1,4 +1,4 @@
-package br.com.bacen.adapter.exception;
+package br.com.bacen.adapter.exception.handler;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

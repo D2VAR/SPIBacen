@@ -1,5 +1,6 @@
-package br.com.bacen.adapter.exception;
+package br.com.bacen.adapter.exception.handler;
 
+import br.com.bacen.adapter.exception.ChavePixNaoEncontradaException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
