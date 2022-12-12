@@ -1,5 +1,6 @@
 package br.com.bacen.domain.dto;
 
+import br.com.bacen.domain.model.TipoChave;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,11 +18,4 @@ public class ChavePixResponse {
     private String nome;
     private TipoChave tipo_chave;
     private String valor_chave;
-
-    public enum TipoChave{
-        CPF,
-        EMAIL,
-        CELULAR,
-        ALEATORIA
-    }
 }

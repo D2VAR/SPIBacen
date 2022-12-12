@@ -1,6 +1,8 @@
 package br.com.bacen.domain.service;
 
 import br.com.bacen.domain.dto.ChavePixResponse;
+import br.com.bacen.domain.mapper.ChavePixMapper;
+import br.com.bacen.domain.model.ChavePix;
 import br.com.bacen.port.in.VerificacaoChavePixInputPort;
 
 import java.util.Optional;
