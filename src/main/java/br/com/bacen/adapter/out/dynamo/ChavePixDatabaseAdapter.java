@@ -1,6 +1,7 @@
 package br.com.bacen.adapter.out.dynamo;
 
 import br.com.bacen.adapter.out.dynamo.entity.ChavePixEntity;
+import br.com.bacen.adapter.out.dynamo.repository.ChavePixRepository;
 import br.com.bacen.domain.mapper.ChavePixMapper;
 import br.com.bacen.domain.model.ChavePix;
 import br.com.bacen.port.out.DatabaseOutputPort;
