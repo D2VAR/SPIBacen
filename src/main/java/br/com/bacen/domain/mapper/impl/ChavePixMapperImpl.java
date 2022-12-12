@@ -1,27 +1,26 @@
 package br.com.bacen.domain.mapper.impl;
 
+import br.com.bacen.adapter.out.dynamo.entity.ChavePixEntity;
 import br.com.bacen.domain.dto.ChavePixResponse;
 import br.com.bacen.domain.mapper.ChavePixMapper;
 import br.com.bacen.domain.model.ChavePix;
-import br.com.itau.verificachavepix.application.dto.ChavePixResponse;
-import br.com.itau.verificachavepix.application.mapper.ChavePixMapper;
-import br.com.itau.verificachavepix.domain.ChavePix;
-import br.com.itau.verificachavepix.infrastructure.persistence.model.ChavePixModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChavePixMapperImpl implements ChavePixMapper {
-    public ChavePix modelToDomain(ChavePixModel model) {
+    public ChavePix modelToDomain(ChavePixEntity model) {
         if(model == null){
             return null;
         }
 
         ChavePix chavePix = new ChavePix();
-        chavePix.setCod_banco(model.getCod_banco());
-        chavePix.setNumero_conta(model.getNumero_conta());
-        chavePix.setAgencia_conta(model.getAgencia_conta());
-        chavePix.setCpf_cnpj(model.getCpf_cnpj());
+        chavePix.setCodBanco(model.getCodBanco());
+        chavePix.setNumeroConta(model.getNumeroConta());
+        chavePix.setAgenciaConta(model.getAgenciaConta());
+        chavePix.setCpfCnpj(model.getCpfCnpj());
         chavePix.setNome(model.getNome());
-        chavePix.setTipo_chave(model.getTipo_chave());
-        chavePix.setValor_chave(model.getValor_chave());
+        chavePix.setTipoChave(model.getTipoChave());
+        chavePix.setValorChave(model.getValorChave());
 
         return chavePix;
     }

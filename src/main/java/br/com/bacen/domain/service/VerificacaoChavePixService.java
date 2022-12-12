@@ -1,12 +1,16 @@
 package br.com.bacen.domain.service;
 
+import br.com.bacen.adapter.exception.ChavePixNaoEncontradaException;
 import br.com.bacen.domain.dto.ChavePixResponse;
 import br.com.bacen.domain.mapper.ChavePixMapper;
 import br.com.bacen.domain.model.ChavePix;
 import br.com.bacen.port.in.VerificacaoChavePixInputPort;
+import br.com.bacen.port.out.DatabaseOutputPort;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class VerificacaoChavePixService implements VerificacaoChavePixInputPort {
 
     private final DatabaseOutputPort databaseOutputPort;
