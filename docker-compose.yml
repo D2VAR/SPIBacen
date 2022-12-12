@@ -33,7 +33,7 @@ services:
       - reschedule=on-node-failure
   init-dynamo:
     image: garland/aws-cli-docker
-    command: "aws dynamodb create-table --table-name chaves-pix --attribute-definitions AttributeName=codigo_banco,AttributeType=S AttributeName=cpf_valor_chave,AttributeType=S AttributeNeme=valor_chave,AtributeType=S --key-schema AttributeName=codigo_banco,KeyType=HASH AttributeName=cpf_valor_chave,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 --global-secondary-indexes "[{\"IndexName\": \"ChavePix\",\"KeySchema\": [{\"AttributeName\":\"valor_chave\",\"KeyType\":\"HASH\"}],\"Projection\":{\"ProjectionType\":\"INCLUDE\",\"NonKeyAttributes\":[\"codigo_banco\",\"cpf\"]},\"ProvisionedThroughput\": {\"ReadCapacityUnits\": 1,\"WriteCapacityUnits\": 1}}]" --endpoint-url http://dynamo:8000"
+    command: "aws dynamodb create-table --table-name chaves-pix --attribute-definitions AttributeName=codigo_banco,AttributeType=S AttributeName=cpf_valor_chave,AttributeType=S AttributeNeme=valor_chave,AtributeType=S --key-schema AttributeName=codigo_banco,KeyType=HASH AttributeName=cpf_valor_chave,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 --global-secondary-indexes "[{\"IndexName\": \"ChavePix-index\",\"KeySchema\": [{\"AttributeName\":\"valor_chave\",\"KeyType\":\"HASH\"}],\"Projection\":{\"ProjectionType\":\"INCLUDE\",\"NonKeyAttributes\":[\"codigo_banco\",\"cpf\"]},\"ProvisionedThroughput\": {\"ReadCapacityUnits\": 1,\"WriteCapacityUnits\": 1}}]" --endpoint-url http://dynamo:8000"
     links:
       - dynamo
     environment:
