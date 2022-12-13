@@ -1,6 +1,7 @@
 package br.com.spi.infrastructure.mapper.impl;
 
 import br.com.spi.adapter.out.dynamo.entity.ChavePixEntity;
+import br.com.spi.domain.dto.ChavePixCadastroMensagem;
 import br.com.spi.domain.dto.ChavePixDTO;
 import br.com.spi.domain.dto.ChavePixResponse;
 import br.com.spi.infrastructure.mapper.ChavePixMapper;
@@ -55,7 +56,7 @@ public class ChavePixMapperImpl implements ChavePixMapper {
         chavePix.setAgenciaConta(Integer.parseInt(chavePixDTO.getAgenciaConta()));
         chavePix.setCpfCnpj(chavePixDTO.getCpfCnpj());
         chavePix.setNome(chavePixDTO.getNome());
-        chavePix.setTipoChave(chavePixDTO.getTipoChave());
+        //chavePix.setTipoChave(chavePixDTO.getTipoChave());
         chavePix.setValorChave(chavePixDTO.getValorChave());
 
         return chavePix;
@@ -77,5 +78,23 @@ public class ChavePixMapperImpl implements ChavePixMapper {
         entity.setValorChave(chavePix.getValorChave());
 
         return entity;
+    }
+
+    @Override
+    public ChavePixCadastroMensagem domainToMensagem(ChavePix chavePix) {
+        if(chavePix == null){
+            return null;
+        }
+
+        ChavePixCadastroMensagem mensagem = new ChavePixCadastroMensagem();
+        mensagem.setCodBanco(chavePix.getCodBanco().toString());
+        mensagem.setNumeroConta(chavePix.getNumeroConta());
+        mensagem.setAgenciaConta(chavePix.getAgenciaConta().toString());
+        mensagem.setCpfCnpj(chavePix.getCpfCnpj());
+        mensagem.setNome(chavePix.getNome());
+        //mensagem.setTipoChave(chavePix.getTipoChave());
+        mensagem.setValorChave(chavePix.getValorChave());
+
+        return mensagem;
     }
 }
