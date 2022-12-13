@@ -1,8 +1,9 @@
-package br.com.spi.domain.mapper.impl;
+package br.com.spi.infrastructure.mapper.impl;
 
 import br.com.spi.adapter.out.dynamo.entity.ChavePixEntity;
+import br.com.spi.domain.dto.ChavePixDTO;
 import br.com.spi.domain.dto.ChavePixResponse;
-import br.com.spi.domain.mapper.ChavePixMapper;
+import br.com.spi.infrastructure.mapper.ChavePixMapper;
 import br.com.spi.domain.model.ChavePix;
 import org.springframework.stereotype.Component;
 
@@ -40,5 +41,41 @@ public class ChavePixMapperImpl implements ChavePixMapper {
         response.setValorChave(chavePix.getValorChave());
 
         return response;
+    }
+
+    @Override
+    public ChavePix dtoToModel(ChavePixDTO chavePixDTO) {
+        if(chavePixDTO == null){
+            return null;
+        }
+
+        ChavePix chavePix = new ChavePix();
+        chavePix.setCodBanco(Integer.parseInt(chavePixDTO.getCodBanco()));
+        chavePix.setNumeroConta(chavePixDTO.getNumeroConta());
+        chavePix.setAgenciaConta(Integer.parseInt(chavePixDTO.getAgenciaConta()));
+        chavePix.setCpfCnpj(chavePixDTO.getCpfCnpj());
+        chavePix.setNome(chavePixDTO.getNome());
+        chavePix.setTipoChave(chavePixDTO.getTipoChave());
+        chavePix.setValorChave(chavePixDTO.getValorChave());
+
+        return chavePix;
+    }
+
+    @Override
+    public ChavePixEntity modeltoEntity(ChavePix chavePix) {
+        if(chavePix == null){
+            return null;
+        }
+
+        ChavePixEntity entity = new ChavePixEntity();
+        entity.setCodBanco(chavePix.getCodBanco());
+        entity.setNumeroConta(chavePix.getNumeroConta());
+        entity.setAgenciaConta(chavePix.getAgenciaConta());
+        entity.setCpfCnpj(chavePix.getCpfCnpj());
+        entity.setNome(chavePix.getNome());
+        entity.setTipoChave(chavePix.getTipoChave());
+        entity.setValorChave(chavePix.getValorChave());
+
+        return entity;
     }
 }
