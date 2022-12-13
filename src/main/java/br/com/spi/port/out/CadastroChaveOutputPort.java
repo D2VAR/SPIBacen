@@ -3,6 +3,8 @@ package br.com.spi.port.out;
 import br.com.spi.domain.model.ChavePix;
 
 
-public interface CadastroChaveConcluidaOutputPort {
+public interface CadastroChaveOutputPort {
     void notificaCadastroConcluido(ChavePix novaChavePix);
+
+    void notificaErroCadastro(ChavePix novaChavePix);
 }
