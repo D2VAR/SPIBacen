@@ -4,8 +4,15 @@ import lombok.Getter;
 
 @Getter
 public enum TipoChave {
-    CPF,
-    EMAIL,
-    CELULAR,
-    ALEATORIA
+    CPF("CPF"),
+    EMAIL("EMAIL"),
+    CELULAR("CELULAR"),
+    ALEATORIA("ALEATORIA");
+
+    private final String descricaoTipo;
+
+
+    TipoChave(String descricaoTipo) {
+        this.descricaoTipo = descricaoTipo;
+    }
 }

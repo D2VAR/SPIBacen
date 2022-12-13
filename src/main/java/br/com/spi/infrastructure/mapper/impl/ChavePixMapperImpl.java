@@ -4,9 +4,12 @@ import br.com.spi.adapter.out.dynamo.entity.ChavePixEntity;
 import br.com.spi.domain.dto.ChavePixCadastroMensagem;
 import br.com.spi.domain.dto.ChavePixDTO;
 import br.com.spi.domain.dto.ChavePixResponse;
+import br.com.spi.domain.enums.TipoChave;
 import br.com.spi.infrastructure.mapper.ChavePixMapper;
 import br.com.spi.domain.model.ChavePix;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 @Component
 public class ChavePixMapperImpl implements ChavePixMapper {
@@ -56,7 +59,7 @@ public class ChavePixMapperImpl implements ChavePixMapper {
         chavePix.setAgenciaConta(Integer.parseInt(chavePixDTO.getAgenciaConta()));
         chavePix.setCpfCnpj(chavePixDTO.getCpfCnpj());
         chavePix.setNome(chavePixDTO.getNome());
-        //chavePix.setTipoChave(chavePixDTO.getTipoChave());
+        chavePix.setTipoChave(stringToEnum(chavePix.getTipoChave().toString()));
         chavePix.setValorChave(chavePixDTO.getValorChave());
 
         return chavePix;
@@ -92,9 +95,15 @@ public class ChavePixMapperImpl implements ChavePixMapper {
         mensagem.setAgenciaConta(chavePix.getAgenciaConta().toString());
         mensagem.setCpfCnpj(chavePix.getCpfCnpj());
         mensagem.setNome(chavePix.getNome());
-        //mensagem.setTipoChave(chavePix.getTipoChave());
+        mensagem.setTipoChave(chavePix.getTipoChave().getDescricaoTipo());
         mensagem.setValorChave(chavePix.getValorChave());
 
         return mensagem;
+    }
+
+    private TipoChave stringToEnum(String descricaoTipo){
+        return Arrays.stream(TipoChave.values())
+                .filter(valorTipo -> descricaoTipo.equalsIgnoreCase(valorTipo.getDescricaoTipo()))
+                .findAny().orElseThrow( () -> new IllegalArgumentException("Tipo chave pix inválido.") );
     }
 }
