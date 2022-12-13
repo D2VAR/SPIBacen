@@ -1,5 +1,6 @@
 package br.com.spi.domain.model;
 
+import br.com.spi.domain.enums.TipoChave;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

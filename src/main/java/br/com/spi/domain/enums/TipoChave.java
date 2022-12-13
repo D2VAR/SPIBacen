@@ -1,4 +1,4 @@
-package br.com.spi.domain.model;
+package br.com.spi.domain.enums;
 
 import lombok.Getter;
 

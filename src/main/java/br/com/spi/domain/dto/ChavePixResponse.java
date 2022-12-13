@@ -1,6 +1,6 @@
 package br.com.spi.domain.dto;
 
-import br.com.spi.domain.model.TipoChave;
+import br.com.spi.domain.enums.TipoChave;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
