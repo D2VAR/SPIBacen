@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface DatabaseOutputPort {
     Optional<ChavePix> findChavePixByValor(String valorChave);
+
+    void salvarChavePix(ChavePix chavePix);
 }
