@@ -4,9 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.kafka.annotation.EnableKafka;
 
 @Slf4j
 @SpringBootApplication
+@EnableKafka
 @EnableDynamoDBRepositories
 public class Application {
 
