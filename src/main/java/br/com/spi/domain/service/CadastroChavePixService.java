@@ -4,8 +4,7 @@ import br.com.spi.domain.dto.ChavePixDTO;
 import br.com.spi.domain.model.ChavePix;
 import br.com.spi.infrastructure.mapper.ChavePixMapper;
 import br.com.spi.port.in.CadastroChavePixInputPort;
-import br.com.spi.port.out.CadastroChaveConcluidaOutputPort;
-import br.com.spi.port.out.CadastroChaveInvalidoOutputPort;
+import br.com.spi.port.out.CadastroChaveOutputPort;
 import br.com.spi.port.out.DatabaseOutputPort;
 import org.springframework.stereotype.Service;
 
@@ -16,25 +15,23 @@ public class CadastroChavePixService implements CadastroChavePixInputPort {
 
     private final ChavePixMapper mapper;
     private final DatabaseOutputPort databaseOutputPort;
-    private final CadastroChaveConcluidaOutputPort cadastroChaveConcluidaOutputPort;
-    private final CadastroChaveInvalidoOutputPort cadastroChaveInvalidoOutputPort;
+    private final CadastroChaveOutputPort cadastroOutputPort;
 
-    public CadastroChavePixService(DatabaseOutputPort databaseOutpurPort, CadastroChaveConcluidaOutputPort cadastroChaveConcluidaOutputPort, CadastroChaveInvalidoOutputPort cadastroChaveInvalidoOutputPort, ChavePixMapper mapper) {
-        this.databaseOutputPort = databaseOutpurPort;
-        this.cadastroChaveConcluidaOutputPort = cadastroChaveConcluidaOutputPort;
-        this.cadastroChaveInvalidoOutputPort = cadastroChaveInvalidoOutputPort;
+    public CadastroChavePixService(DatabaseOutputPort databaseOutputPort, ChavePixMapper mapper, CadastroChaveOutputPort cadastroOutputPort) {
+        this.databaseOutputPort = databaseOutputPort;
         this.mapper = mapper;
+        this.cadastroOutputPort = cadastroOutputPort;
     }
     @Override
     public void cadastrarChave(ChavePixDTO chavePixDTO) {
         Optional<ChavePix> chavePix = databaseOutputPort.findChavePixByValor(chavePixDTO.getValorChave());
 
         if (chavePix.isPresent()){
-            cadastroChaveInvalidoOutputPort.notificaErroCadastro(chavePix);
+            cadastroOutputPort.notificaErroCadastro(chavePix.get());
         }
 
         ChavePix novaChavePix = mapper.dtoToModel(chavePixDTO);
         databaseOutputPort.salvarChavePix(novaChavePix);
-        cadastroChaveConcluidaOutputPort.notificaCadastroConcluido(novaChavePix);
+        cadastroOutputPort.notificaCadastroConcluido(novaChavePix);
     }
 }
