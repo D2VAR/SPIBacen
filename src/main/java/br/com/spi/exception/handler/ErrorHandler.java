@@ -1,6 +1,6 @@
-package br.com.spi.adapter.exception.handler;
+package br.com.spi.exception.handler;
 
-import br.com.spi.adapter.exception.ChavePixNaoEncontradaException;
+import br.com.spi.exception.ChavePixNaoEncontradaException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -1,11 +1,10 @@
 package br.com.spi.domain.mapper;
 
-import br.com.spi.adapter.out.dynamo.entity.ChavePixEntity;
-import br.com.spi.domain.dto.ChavePixResponse;
-import br.com.spi.domain.model.ChavePix;
+import br.com.spi.adapter.out.dynamo.entity.ChavePixDynamo;
+import br.com.spi.domain.model.dto.ChavePixDto;
 
 public interface ChavePixMapper {
-    ChavePix entityToModel(ChavePixEntity entity);
+    ChavePixDto entityToDto(ChavePixDynamo entity);
 
-    ChavePixResponse modelToResponse(ChavePix chavePix);
+    ChavePixDynamo dtoToEntity(ChavePixDto chavePixDto);
 }

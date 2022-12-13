@@ -1,13 +1,14 @@
 package br.com.spi;
 
+import br.com.spi.port.out.DatabaseOutputPort;
 import lombok.extern.slf4j.Slf4j;
-import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 @Slf4j
 @SpringBootApplication
-@EnableDynamoDBRepositories
 public class Application {
 
     public static void main(String[] args) {

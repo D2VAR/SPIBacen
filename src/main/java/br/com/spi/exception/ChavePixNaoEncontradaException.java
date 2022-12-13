@@ -1,4 +1,4 @@
-package br.com.spi.adapter.exception;
+package br.com.spi.exception;
 
 public class ChavePixNaoEncontradaException extends RuntimeException{
 

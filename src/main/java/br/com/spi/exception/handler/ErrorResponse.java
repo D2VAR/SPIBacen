@@ -1,4 +1,4 @@
-package br.com.spi.adapter.exception.handler;
+package br.com.spi.exception.handler;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

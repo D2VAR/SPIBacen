@@ -1,15 +1,16 @@
-version: '2.1'
+version: '3.8'
 services:
 
   localstack:
     container_name: localstack
     image: localstack/localstack
     ports:
-      - "8000:4566"
+      - '8000:4566'
     environment:
-      - DEFAULT_REGION=sa-east-1
+      - SKIP_SSL_CERT_DOWNLOAD=1
     volumes: 
       - ./init-scripts:/docker-entrypoint-initaws.d
+      - ./certs:/var/lib/localstack/cache
       - /var/run/docker.sock:/var/run/docker.sock
 
   zookeeper:
