@@ -1,6 +1,5 @@
 package br.com.spi.domain.service;
 
-import br.com.spi.adapter.exception.ChavePixNaoEncontradaException;
 import br.com.spi.domain.dto.ChavePixResponse;
 import br.com.spi.domain.enums.StatusChavePix;
 import br.com.spi.infrastructure.mapper.ChavePixMapper;

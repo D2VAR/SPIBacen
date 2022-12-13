@@ -1,6 +1,6 @@
 package br.com.spi.adapter.exception.handler;
 
-import br.com.spi.adapter.exception.ChavePixNaoEncontradaException;
+import br.com.spi.adapter.exception.ChaveValidatorException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class ErrorHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(ChavePixNaoEncontradaException.class)
-    public ResponseEntity<ErrorResponse> handlerNotFoundException(ChavePixNaoEncontradaException ex){
+    @ExceptionHandler(ChaveValidatorException.class)
+    public ResponseEntity<ErrorResponse> handlerNotFoundException(ChaveValidatorException ex){
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setTimestamp(LocalDateTime.now());
         errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
