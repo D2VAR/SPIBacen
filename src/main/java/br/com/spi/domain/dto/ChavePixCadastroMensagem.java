@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ChavePixCadastroMensagem {
 
-
+    private String id;
     private String status;
     private String codBanco;
     private String numeroConta;

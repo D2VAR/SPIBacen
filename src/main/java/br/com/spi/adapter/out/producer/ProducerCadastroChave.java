@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -26,7 +28,9 @@ public class ProducerCadastroChave implements CadastroChaveOutputPort {
     @Override
     public void notificaCadastroConcluido(ChavePix novaChavePix) {
         ChavePixCadastroMensagem mensagem = chavePixMapper.domainToMensagem(novaChavePix);
+        mensagem.setId(UUID.randomUUID().toString());
         mensagem.setStatus("Chave pix cadastrada com sucesso.");
+
         kafkaTemplate.send(this.topicSuccess, mensagem);
         log.info("#### Chave pix cadastrada - mensagem: {}",mensagem);
 
@@ -36,7 +40,9 @@ public class ProducerCadastroChave implements CadastroChaveOutputPort {
     @Override
     public void notificaErroCadastro(ChavePix novaChavePix) {
         ChavePixCadastroMensagem mensagem = chavePixMapper.domainToMensagem(novaChavePix);
+        mensagem.setId(UUID.randomUUID().toString());
         mensagem.setStatus("Falha ao cadastrar chave pix .");
+
         kafkaTemplate.send(this.topicFail, mensagem);
         log.info("#### Erro cadastro chave pix - mensagem: {}",mensagem);
 
