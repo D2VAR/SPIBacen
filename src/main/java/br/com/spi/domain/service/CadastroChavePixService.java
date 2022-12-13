@@ -14,10 +14,10 @@ import java.util.Optional;
 @Service
 public class CadastroChavePixService implements CadastroChavePixInputPort {
 
+    private final ChavePixMapper mapper;
     private final DatabaseOutputPort databaseOutputPort;
     private final CadastroChaveConcluidaOutputPort cadastroChaveConcluidaOutputPort;
     private final CadastroChaveInvalidoOutputPort cadastroChaveInvalidoOutputPort;
-    private final ChavePixMapper mapper;
 
     public CadastroChavePixService(DatabaseOutputPort databaseOutpurPort, CadastroChaveConcluidaOutputPort cadastroChaveConcluidaOutputPort, CadastroChaveInvalidoOutputPort cadastroChaveInvalidoOutputPort, ChavePixMapper mapper) {
         this.databaseOutputPort = databaseOutpurPort;
