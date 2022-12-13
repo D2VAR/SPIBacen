@@ -20,7 +20,7 @@ public class CadastroChavePixConsumer {
     private final ChaveValidator chaveValidator;
     private final CadastroChavePixInputPort inputPort;
 
-    @KafkaListener(topics = "{spring.kafka.topic.name}")
+    @KafkaListener(id="${spring.kafka.consumer.group-id}", topics = "${topic.name.envio}")
     public void listen(ConsumerRecord<String, String> mensagemKafka, Acknowledgment ack) {
         try {
             log.info(String.format("#### Mensagem Consumida -> %s, topic -> %s",
@@ -29,7 +29,7 @@ public class CadastroChavePixConsumer {
             chaveValidator.validate(chavePixDTO);
             inputPort.cadastrarChave(chavePixDTO);
         } catch (Exception ex) {
-            log.error(ex.getMessage(), ex);
+            log.error("#### Erro -> {},{}", ex.getMessage(), ex.getStackTrace());
         } finally {
             ack.acknowledge();
         }
