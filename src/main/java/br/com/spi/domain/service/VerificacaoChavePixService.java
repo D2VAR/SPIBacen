@@ -2,6 +2,7 @@ package br.com.spi.domain.service;
 
 import br.com.spi.adapter.exception.ChavePixNaoEncontradaException;
 import br.com.spi.domain.dto.ChavePixResponse;
+import br.com.spi.domain.enums.StatusChavePix;
 import br.com.spi.infrastructure.mapper.ChavePixMapper;
 import br.com.spi.domain.model.ChavePix;
 import br.com.spi.port.in.VerificacaoChavePixInputPort;
@@ -25,8 +26,12 @@ public class VerificacaoChavePixService implements VerificacaoChavePixInputPort 
     public ChavePixResponse findChavePixByValor(String valorChave) {
         Optional<ChavePix> chavePix = databaseOutputPort.findChavePixByValor(valorChave);
 
-        return chavePix
-                .map(mapper::modelToResponse)
-                .orElseThrow(ChavePixNaoEncontradaException::new);
+        if(chavePix.isEmpty()){
+            return new ChavePixResponse(valorChave, StatusChavePix.INVALIDA);
+        }
+
+        ChavePixResponse response = mapper.modelToResponse(chavePix.get());
+        response.setStatus(StatusChavePix.VALIDA);
+        return response;
     }
 }
