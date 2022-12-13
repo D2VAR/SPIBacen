@@ -13,7 +13,7 @@ public class ChaveValidator {
         isNull(chavePixDTO.getCpfCnpj());
         isNull(chavePixDTO.getNome());
         isNull(chavePixDTO.getValorChave());
-        isNull(chavePixDTO.getTipoChave());
+//        isNull(chavePixDTO.getTipoChave());
 
         isValidNumber(chavePixDTO.getCodBanco());
         isValidNumber(chavePixDTO.getAgenciaConta());

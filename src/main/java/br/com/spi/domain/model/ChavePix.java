@@ -16,6 +16,6 @@ public class ChavePix {
     private Integer agenciaConta;
     private String cpfCnpj;
     private String nome;
-    private TipoChave tipoChave;
+//    private TipoChave tipoChave;
     private String valorChave;
 }

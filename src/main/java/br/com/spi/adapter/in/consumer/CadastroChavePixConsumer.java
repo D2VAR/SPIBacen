@@ -28,8 +28,11 @@ public class CadastroChavePixConsumer {
             ChavePixDTO chavePixDTO = new ObjectMapper().readValue(mensagemKafka.value(), ChavePixDTO.class);
             chaveValidator.validate(chavePixDTO);
             inputPort.cadastrarChave(chavePixDTO);
+
+
         } catch (Exception ex) {
-            log.error("#### Erro -> {},{}", ex.getMessage(), ex.getStackTrace());
+            log.error("#### ErroConsumerMensagem -> {},{}", ex.getMessage(), ex.getStackTrace());
+
         } finally {
             ack.acknowledge();
         }

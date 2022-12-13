@@ -16,6 +16,6 @@ public class ChavePixDTO {
     private String agenciaConta;
     private String cpfCnpj;
     private String nome;
-    private String tipoChave;
+//    private String tipoChave;
     private String valorChave;
 }

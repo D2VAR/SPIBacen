@@ -24,7 +24,7 @@ public class ChavePixMapperImpl implements ChavePixMapper {
         chavePix.setAgenciaConta(entity.getAgenciaConta());
         chavePix.setCpfCnpj(entity.getCpfCnpj());
         chavePix.setNome(entity.getNome());
-        chavePix.setTipoChave(entity.getTipoChave());
+//        chavePix.setTipoChave(entity.getTipoChave());
         chavePix.setValorChave(entity.getValorChave());
 
         return chavePix;
@@ -41,7 +41,7 @@ public class ChavePixMapperImpl implements ChavePixMapper {
         response.setAgenciaConta(chavePix.getAgenciaConta());
         response.setCpfCnpj(chavePix.getCpfCnpj());
         response.setNome(chavePix.getNome());
-        response.setTipoChave(chavePix.getTipoChave());
+//        response.setTipoChave(chavePix.getTipoChave());
         response.setValorChave(chavePix.getValorChave());
 
         return response;
@@ -59,7 +59,7 @@ public class ChavePixMapperImpl implements ChavePixMapper {
         chavePix.setAgenciaConta(Integer.parseInt(chavePixDTO.getAgenciaConta()));
         chavePix.setCpfCnpj(chavePixDTO.getCpfCnpj());
         chavePix.setNome(chavePixDTO.getNome());
-        chavePix.setTipoChave(stringToEnum(chavePix.getTipoChave().toString()));
+//        chavePix.setTipoChave(stringToEnum(chavePix.getTipoChave().toString()));
         chavePix.setValorChave(chavePixDTO.getValorChave());
 
         return chavePix;
@@ -77,7 +77,7 @@ public class ChavePixMapperImpl implements ChavePixMapper {
         entity.setAgenciaConta(chavePix.getAgenciaConta());
         entity.setCpfCnpj(chavePix.getCpfCnpj());
         entity.setNome(chavePix.getNome());
-        entity.setTipoChave(chavePix.getTipoChave());
+//        entity.setTipoChave(chavePix.getTipoChave());
         entity.setValorChave(chavePix.getValorChave());
 
         return entity;
@@ -95,7 +95,7 @@ public class ChavePixMapperImpl implements ChavePixMapper {
         mensagem.setAgenciaConta(chavePix.getAgenciaConta().toString());
         mensagem.setCpfCnpj(chavePix.getCpfCnpj());
         mensagem.setNome(chavePix.getNome());
-        mensagem.setTipoChave(chavePix.getTipoChave().getDescricaoTipo());
+//        mensagem.setTipoChave(chavePix.getTipoChave().getDescricaoTipo());
         mensagem.setValorChave(chavePix.getValorChave());
 
         return mensagem;

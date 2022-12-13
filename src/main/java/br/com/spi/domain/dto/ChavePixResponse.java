@@ -18,7 +18,7 @@ public class ChavePixResponse {
     private Integer agenciaConta;
     private String cpfCnpj;
     private String nome;
-    private TipoChave tipoChave;
+//    private TipoChave tipoChave;
     private String valorChave;
 
     public ChavePixResponse(String valorChave, StatusChavePix status) {

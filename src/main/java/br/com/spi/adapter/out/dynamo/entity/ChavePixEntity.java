@@ -23,10 +23,11 @@ public class ChavePixEntity {
     @DynamoDBAttribute(attributeName = "nome")
     private String nome;
 
-    @DynamoDBTypeConvertedEnum
-    @DynamoDBAttribute(attributeName = "tipo_chave")
-    private TipoChave tipoChave;
+//    @DynamoDBTypeConvertedEnum
+//    @DynamoDBAttribute(attributeName = "tipo_chave")
+//    private TipoChave tipoChave;
 
+    @DynamoDBRangeKey(attributeName = "valor_chave")
     @DynamoDBIndexHashKey(attributeName = "valor_chave", globalSecondaryIndexName = "ChavePix-index")
     private String valorChave;
 }
