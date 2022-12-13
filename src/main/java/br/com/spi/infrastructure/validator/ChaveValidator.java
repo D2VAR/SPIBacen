@@ -2,7 +2,9 @@ package br.com.spi.infrastructure.validator;
 
 import br.com.spi.adapter.exception.ChaveValidatorException;
 import br.com.spi.domain.dto.ChavePixDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChaveValidator {
 
     public void validate(ChavePixDTO chavePixDTO) {
