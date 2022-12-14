@@ -6,7 +6,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 
@@ -18,8 +17,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ChavePixRepository implements DatabaseOutputPort {
     private final DynamoDBMapper dynamoDBMapper;
-    @Value("${dynamodb.index.chave-pix}")
-    private final String CHAVE_PIX_INDEX;
+//    @Value("${dynamodb.index.chave-pix}")
+    private final String CHAVE_PIX_INDEX = "ChavePix-index";
 
     @Override
     public void updateChavePix(ChavePixDynamo chavePix) {
