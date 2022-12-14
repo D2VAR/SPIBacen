@@ -28,7 +28,6 @@ public class DynamoDBConfig {
     private String dynamoDBRegion;
 
     @Bean
-    @Primary
     public DynamoDBMapper dynamoDBMapper(AmazonDynamoDB amazonDynamoDB) {
         return new DynamoDBMapper(amazonDynamoDB);
     }

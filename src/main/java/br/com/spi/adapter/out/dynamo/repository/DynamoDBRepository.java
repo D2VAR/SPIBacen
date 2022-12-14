@@ -3,21 +3,28 @@ package br.com.spi.adapter.out.dynamo.repository;
 import br.com.spi.adapter.out.dynamo.entity.ChavePixDynamo;
 import br.com.spi.adapter.out.dynamo.exception.ChavePixDuplicateException;
 import br.com.spi.port.out.DatabaseOutputPort;
+import br.com.spi.adapter.out.dynamo.entity.ChavePixEntity;
+import br.com.spi.infrastructure.mapper.ChavePixMapper;
+import br.com.spi.domain.model.ChavePix;
+import br.com.spi.port.out.DatabaseOutputPort;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
-
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class ChavePixRepository implements DatabaseOutputPort {
+public class DynamoDBRepository implements DatabaseOutputPort {
+
+    private final ChavePixMapper mapper;
     private final DynamoDBMapper dynamoDBMapper;
     @Value("${dynamodb.index.chave-pix}")
     private String CHAVE_PIX_INDEX;
@@ -39,6 +46,12 @@ public class ChavePixRepository implements DatabaseOutputPort {
         var chavePix = getChavePix(valorChave);
         return chavePix.isPresent();
     }
+    @Override
+    public Optional<ChavePix> findChavePixByValor(String valorChave) {
+        log.info("Busca chave pix por valor. Valor Chave: {}", valorChave);
+        Optional<ChavePixEntity> chavePix = queryChavePixByValorChave(valorChave);
+        return chavePix.map(mapper::entityToModel);
+    }
 
     @Override
     public void deleteChavePix(ChavePixDynamo chavePix) {
@@ -48,6 +61,8 @@ public class ChavePixRepository implements DatabaseOutputPort {
         }
         throw new RuntimeException("Chave Pix does not exists!");
     }
+    private Optional<ChavePixEntity> queryChavePixByValorChave(String valorChave) {
+        DynamoDBQueryExpression<ChavePixEntity> queryExpression = new DynamoDBQueryExpression<>();
 
     @Override
     public Optional<ChavePixDynamo> getChavePix(String valorChave) {
@@ -115,5 +130,12 @@ public class ChavePixRepository implements DatabaseOutputPort {
         List<ChavePixDynamo> result = dynamoDBMapper.query(ChavePixDynamo.class, queryExpression);
 
         return result;
+    }
+
+    @Override
+    public void salvarChavePix(ChavePix chavePix) {
+        log.info("Persistencia de chave pix na base de dados no Bacen. Chave Pix: {}", chavePix);
+        ChavePixEntity entity = mapper.modeltoEntity(chavePix);
+        dynamoDBMapper.save(entity);
     }
 }

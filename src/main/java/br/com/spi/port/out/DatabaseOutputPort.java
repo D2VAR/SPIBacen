@@ -16,4 +16,7 @@ public interface DatabaseOutputPort {
                                          String valorChave);
     List<ChavePixDynamo> getChavePixList(String codigoBanco, String cpfCnpj);
 
+    Optional<ChavePix> findChavePixByValor(String valorChave);
+
+    void salvarChavePix(ChavePix chavePix);
 }
