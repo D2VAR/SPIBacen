@@ -1,8 +1,8 @@
 package br.com.spi.domain.model;
 
 public enum TipoChave {
-    CPF,
+    CPF_CNPJ,
     EMAIL,
-    CELULAR,
+    TELEFONE,
     ALEATORIA
 }

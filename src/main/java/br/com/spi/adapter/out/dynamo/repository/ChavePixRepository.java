@@ -1,11 +1,13 @@
 package br.com.spi.adapter.out.dynamo.repository;
 
 import br.com.spi.adapter.out.dynamo.entity.ChavePixDynamo;
+import br.com.spi.adapter.out.dynamo.exception.ChavePixDuplicateException;
 import br.com.spi.port.out.DatabaseOutputPort;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 
@@ -17,8 +19,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ChavePixRepository implements DatabaseOutputPort {
     private final DynamoDBMapper dynamoDBMapper;
-//    @Value("${dynamodb.index.chave-pix}")
-    private final String CHAVE_PIX_INDEX = "ChavePix-index";
+    @Value("${dynamodb.index.chave-pix}")
+    private String CHAVE_PIX_INDEX;
 
     @Override
     public void updateChavePix(ChavePixDynamo chavePix) {
@@ -28,7 +30,7 @@ public class ChavePixRepository implements DatabaseOutputPort {
     @Override
     public void saveChavePix(ChavePixDynamo chavePix) {
         if (chavePixExists(chavePix.getValorChave()))
-            throw new RuntimeException("Chave Pix já existente!");
+            throw new ChavePixDuplicateException("Chave Pix already exists!");
         dynamoDBMapper.save(chavePix);
     }
 
@@ -42,8 +44,9 @@ public class ChavePixRepository implements DatabaseOutputPort {
     public void deleteChavePix(ChavePixDynamo chavePix) {
         if (chavePixExists(chavePix.getValorChave())){
             dynamoDBMapper.delete(chavePix);
+            return;
         }
-        throw new RuntimeException("Chave Pix não existente!");
+        throw new RuntimeException("Chave Pix does not exists!");
     }
 
     @Override

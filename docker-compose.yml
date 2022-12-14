@@ -4,14 +4,14 @@ services:
     container_name: localstack
     image: localstack/localstack
     ports:
-      - '8000:4569'
-    export:
-      - '8000'
+      - '8000:4566'
+#    expose:
+#      - '8000'
     environment:
-      - SKIP_SSL_CERT_DOWNLOAD=1
-    volumes: 
+      - EDGE_PORT=4566
+      - SERVICES=dynamodb
+    volumes:
       - ./init-scripts:/docker-entrypoint-initaws.d
-#      - ./certs:/var/lib/localstack/cache
       - /var/run/docker.sock:/var/run/docker.sock
 #
 #  zookeeper:

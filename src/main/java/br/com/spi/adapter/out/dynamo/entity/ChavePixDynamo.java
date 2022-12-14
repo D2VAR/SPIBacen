@@ -7,23 +7,24 @@ import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@DynamoDBTable(tableName = "chave-pix")
+@Builder
+@DynamoDBTable(tableName = "chaves-pix")
 public class ChavePixDynamo {
-    private Integer codBanco;
+    private String codBanco;
     private String cpfCnpjValorChave;
     private String numeroConta;
-    private Integer agenciaConta;
+    private String agenciaConta;
     private String cpfCnpj;
     private String nome;
     private TipoChave tipoChave;
     private String valorChave;
 
     @DynamoDBHashKey(attributeName = "codigo_banco")
-    public Integer getCodBanco() {
+    public String getCodBanco() {
         return codBanco;
     }
 
-    public void setCodBanco(Integer codBanco) {
+    public void setCodBanco(String codBanco) {
         this.codBanco = codBanco;
     }
 
@@ -45,11 +46,11 @@ public class ChavePixDynamo {
     }
 
     @DynamoDBAttribute(attributeName = "agencia_conta")
-    public Integer getAgenciaConta() {
+    public String getAgenciaConta() {
         return agenciaConta;
     }
 
-    public void setAgenciaConta(Integer agenciaConta) {
+    public void setAgenciaConta(String agenciaConta) {
         this.agenciaConta = agenciaConta;
     }
 

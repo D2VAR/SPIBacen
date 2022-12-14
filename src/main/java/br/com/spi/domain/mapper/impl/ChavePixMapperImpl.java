@@ -1,40 +1,43 @@
 package br.com.spi.domain.mapper.impl;
 
+import br.com.spi.adapter.in.rest.controller.dto.ChavePixRequest;
 import br.com.spi.adapter.out.dynamo.entity.ChavePixDynamo;
 import br.com.spi.domain.mapper.ChavePixMapper;
-import br.com.spi.domain.model.dto.ChavePixDto;
+import br.com.spi.domain.model.dto.ChavePixResponse;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ChavePixMapperImpl implements ChavePixMapper {
-    public ChavePixDto entityToDto(ChavePixDynamo entity) {
+    @Override
+    public ChavePixResponse entityToResponse(ChavePixDynamo entity) {
         if(entity == null)
             return null;
 
-        ChavePixDto chavePixDto = new ChavePixDto();
-        chavePixDto.setCodBanco(entity.getCodBanco());
-        chavePixDto.setNumeroConta(entity.getNumeroConta());
-        chavePixDto.setAgenciaConta(entity.getAgenciaConta());
-        chavePixDto.setCpfCnpj(entity.getCpfCnpj());
-        chavePixDto.setNome(entity.getNome());
-        chavePixDto.setTipoChave(entity.getTipoChave());
-        chavePixDto.setValorChave(entity.getValorChave());
-        return chavePixDto;
+        return ChavePixResponse.builder()
+                .codBanco(entity.getCodBanco())
+                .cpgCnpjValorChave(entity.getCpfCnpjValorChave())
+                .numeroConta(entity.getNumeroConta())
+                .agenciaConta(entity.getAgenciaConta())
+                .cpfCnpj(entity.getCpfCnpj())
+                .nome(entity.getNome())
+                .tipoChave(entity.getTipoChave())
+                .valorChave(entity.getValorChave())
+                .build();
     }
-
-    public ChavePixDynamo dtoToEntity(ChavePixDto chavePixDto) {
-        if(chavePixDto == null)
+    @Override
+    public ChavePixDynamo requestToEntity(ChavePixRequest request) {
+        if(request == null)
             return null;
 
-        ChavePixDynamo response = new ChavePixDynamo();
-        response.setCodBanco(chavePixDto.getCodBanco());
-        response.setCpfCnpjValorChave(chavePixDto.getCpgCnpjValorChave());
-        response.setNumeroConta(chavePixDto.getNumeroConta());
-        response.setAgenciaConta(chavePixDto.getAgenciaConta());
-        response.setCpfCnpj(chavePixDto.getCpfCnpj());
-        response.setNome(chavePixDto.getNome());
-        response.setTipoChave(chavePixDto.getTipoChave());
-        response.setValorChave(chavePixDto.getValorChave());
-        return response;
+        return ChavePixDynamo.builder()
+                .codBanco(request.getCodBanco())
+                .cpfCnpjValorChave(request.getCpfCnpjValorChave())
+                .numeroConta(request.getNumeroConta())
+                .agenciaConta(request.getAgenciaConta())
+                .cpfCnpj(request.getCpfCnpj())
+                .nome(request.getNome())
+                .tipoChave(request.getTipoChave())
+                .valorChave(request.getValorChave())
+                .build();
     }
 }
