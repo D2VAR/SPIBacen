@@ -28,10 +28,11 @@ public class CadastroChavePixService implements CadastroChavePixInputPort {
 
         if (chavePix.isPresent()){
             cadastroOutputPort.notificaErroCadastro(chavePix.get());
+        }else {
+            ChavePix novaChavePix = mapper.dtoToModel(chavePixDTO);
+            databaseOutputPort.salvarChavePix(novaChavePix);
+            cadastroOutputPort.notificaCadastroConcluido(novaChavePix);
         }
 
-        ChavePix novaChavePix = mapper.dtoToModel(chavePixDTO);
-        databaseOutputPort.salvarChavePix(novaChavePix);
-        cadastroOutputPort.notificaCadastroConcluido(novaChavePix);
     }
 }

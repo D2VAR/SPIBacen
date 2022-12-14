@@ -1,14 +1,12 @@
 package br.com.spi.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class ChavePixCadastroMensagem {
 
     private String id;
@@ -18,6 +16,6 @@ public class ChavePixCadastroMensagem {
     private String agenciaConta;
     private String cpfCnpj;
     private String nome;
-    private String tipoChave;
+//    private String tipoChave;
     private String valorChave;
 }

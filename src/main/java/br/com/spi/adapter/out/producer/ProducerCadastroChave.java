@@ -4,7 +4,6 @@ import br.com.spi.domain.dto.ChavePixCadastroMensagem;
 import br.com.spi.domain.model.ChavePix;
 import br.com.spi.infrastructure.mapper.ChavePixMapper;
 import br.com.spi.port.out.CadastroChaveOutputPort;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -14,7 +13,7 @@ import java.util.UUID;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
+
 public class ProducerCadastroChave implements CadastroChaveOutputPort {
 
     @Value("${topic.name.retorno.success}")
@@ -25,13 +24,21 @@ public class ProducerCadastroChave implements CadastroChaveOutputPort {
 
     private final KafkaTemplate<String,ChavePixCadastroMensagem> kafkaTemplate;
     private final ChavePixMapper chavePixMapper;
+
+    public ProducerCadastroChave(KafkaTemplate<String, ChavePixCadastroMensagem> kafkaTemplate, ChavePixMapper chavePixMapper) {
+        this.kafkaTemplate = kafkaTemplate;
+        this.chavePixMapper = chavePixMapper;
+    }
+
     @Override
     public void notificaCadastroConcluido(ChavePix novaChavePix) {
         ChavePixCadastroMensagem mensagem = chavePixMapper.domainToMensagem(novaChavePix);
-        mensagem.setId(UUID.randomUUID().toString());
-        mensagem.setStatus("Chave pix cadastrada com sucesso.");
 
-        kafkaTemplate.send(this.topicSuccess, mensagem);
+        mensagem.setId(UUID.randomUUID().toString());
+        mensagem.setStatus("SUCESSO");
+
+
+        kafkaTemplate.send(topicSuccess, mensagem);
         log.info("#### Chave pix cadastrada - mensagem: {}",mensagem);
 
         kafkaTemplate.flush();
