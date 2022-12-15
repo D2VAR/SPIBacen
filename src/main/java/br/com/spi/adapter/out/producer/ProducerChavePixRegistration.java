@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class ProducerChavePixRegistration implements ChavePixRegistrationOutputPort{
     @Value("${topic.name.retorno.success}")
     private String topicSuccess;
@@ -18,6 +17,9 @@ public class ProducerChavePixRegistration implements ChavePixRegistrationOutputP
     private String topicFailure;
     private final KafkaTemplate<String, ChavePixResponse> kafkaTemplate;
 
+    public ProducerChavePixRegistration(KafkaTemplate<String, ChavePixResponse> kafkaTemplate){
+        this.kafkaTemplate = kafkaTemplate;
+    }
     @Override
     public void notifySuccessfulRegistration(ChavePixResponse response){
         sendChavePixResponseToTopic(response, topicSuccess);

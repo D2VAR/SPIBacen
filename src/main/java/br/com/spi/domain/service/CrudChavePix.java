@@ -1,5 +1,6 @@
 package br.com.spi.domain.service;
 
+import br.com.spi.infrastructure.dto.ChavePixExistsResponse;
 import br.com.spi.infrastructure.dto.ChavePixRequest;
 import br.com.spi.adapter.out.dynamo.entity.ChavePixDynamo;
 import br.com.spi.exception.ChavePixNotFoundException;
@@ -34,12 +35,19 @@ public class CrudChavePix implements CrudChavePixInputPort{
 
 
     @Override
-    public boolean chavePixExists(String valorChave){
+    public ChavePixExistsResponse chavePixExists(String valorChave){
+        var response = ChavePixExistsResponse.builder()
+                .chaveExists(false)
+                .valorChave(valorChave)
+                .build();
         try{
-            getChavePixEntity(valorChave);
-            return true;
+            var entity = getChavePixEntity(valorChave);
+            response.setCodBanco(entity.getCodBanco());
+            response.setTipoChave(entity.getTipoChave());
+            response.setChaveExists(true);
+            return response;
         } catch (ChavePixNotFoundException ex){
-            return false;
+            return response;
         }
     }
 

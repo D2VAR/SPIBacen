@@ -1,18 +1,9 @@
 package br.com.spi.infrastructure.enums;
 
-import lombok.Getter;
-
-@Getter
 public enum TipoChave {
-    CPF("CPF"),
-    EMAIL("EMAIL"),
-    CELULAR("CELULAR"),
-    ALEATORIA("ALEATORIA");
+    CPF_CNPJ,
+    EMAIL,
+    TELEFONE,
+    ALEATORIA
 
-    private final String descricaoTipo;
-
-
-    TipoChave(String descricaoTipo) {
-        this.descricaoTipo = descricaoTipo;
-    }
 }

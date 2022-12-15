@@ -10,22 +10,14 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChavePixRequest {
-    @JsonProperty("transaction_id")
-    private String transactionId;
+public class ChavePixExistsResponse{
     @JsonProperty("codigo_banco")
     private String codBanco;
-    @JsonProperty("numero_conta")
-    private String numeroConta;
-    @JsonProperty("agencia_conta")
-    private String agenciaConta;
-    @JsonProperty("cpf_cnpj")
-    private String cpfCnpj;
-    @JsonProperty("nome")
-    private String nome;
+    @JsonProperty("chave_existente")
+    private Boolean chaveExists;
     @JsonProperty("tipo_chave")
     private TipoChave tipoChave;
     @JsonProperty("valor_chave")
     private String valorChave;
-
 }
+

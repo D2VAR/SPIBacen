@@ -20,11 +20,12 @@ public class ChavePixRegistrationService implements ChavePixRegistrationInputPor
     @Override
     public void registerChavePix(ChavePixRequest chavePixRequest) {
         var model = mapper.requestToResponse(chavePixRequest);
-        if (crudChavePixInputPort.chavePixExists(chavePixRequest.getValorChave())){
-            crudChavePixInputPort.saveChavePix(chavePixRequest);
-            cadastroOutputPort.notifySuccessfulRegistration(model);
+        var existsResponse = crudChavePixInputPort.chavePixExists(chavePixRequest.getValorChave());
+        if (existsResponse.getChaveExists()){
+            cadastroOutputPort.notifyRegistrationFailure(model);
             return;
         }
-        cadastroOutputPort.notifyRegistrationFailure(model);
+        crudChavePixInputPort.saveChavePix(chavePixRequest);
+        cadastroOutputPort.notifySuccessfulRegistration(model);
     }
 }

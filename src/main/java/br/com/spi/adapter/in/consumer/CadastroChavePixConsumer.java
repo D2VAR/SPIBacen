@@ -2,7 +2,6 @@ package br.com.spi.adapter.in.consumer;
 
 
 import br.com.spi.infrastructure.dto.ChavePixRequest;
-import br.com.spi.infrastructure.validator.Validator;
 import br.com.spi.port.in.ChavePixRegistrationInputPort;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +22,7 @@ public class CadastroChavePixConsumer {
     public void listen(ConsumerRecord<String, String> mensagemKafka, Acknowledgment ack) {
         try {
             processConsumerRecord(mensagemKafka);
-        } catch (Exception ex) {
+        } catch (JsonProcessingException ex) {
             log.error("#### Error consuming message -> {},{}", ex.getMessage(), ex.getStackTrace());
         } finally {
             ack.acknowledge();
