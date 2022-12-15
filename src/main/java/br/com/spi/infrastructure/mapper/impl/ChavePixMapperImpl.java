@@ -1,109 +1,92 @@
 package br.com.spi.infrastructure.mapper.impl;
 
-import br.com.spi.adapter.out.dynamo.entity.ChavePixEntity;
-import br.com.spi.domain.dto.ChavePixCadastroMensagem;
-import br.com.spi.domain.dto.ChavePixDTO;
-import br.com.spi.domain.dto.ChavePixResponse;
-import br.com.spi.domain.enums.TipoChave;
+import br.com.spi.adapter.out.dynamo.entity.ChavePixDynamo;
+import br.com.spi.infrastructure.dto.ChavePixRequest;
+import br.com.spi.infrastructure.dto.ChavePixResponse;
 import br.com.spi.infrastructure.mapper.ChavePixMapper;
 import br.com.spi.domain.model.ChavePix;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+
+import static br.com.spi.infrastructure.validator.Validator.validateObject;
 
 @Component
-public class ChavePixMapperImpl implements ChavePixMapper {
-    public ChavePix entityToModel(ChavePixEntity entity) {
-        if(entity == null){
-            return null;
-        }
-
-        ChavePix chavePix = new ChavePix();
-        chavePix.setCodBanco(entity.getCodBanco());
-        chavePix.setNumeroConta(entity.getNumeroConta());
-        chavePix.setAgenciaConta(entity.getAgenciaConta());
-        chavePix.setCpfCnpj(entity.getCpfCnpj());
-        chavePix.setNome(entity.getNome());
-//        chavePix.setTipoChave(entity.getTipoChave());
-        chavePix.setValorChave(entity.getValorChave());
-
-        return chavePix;
+public class ChavePixMapperImpl implements ChavePixMapper{
+    @Override
+    public ChavePix databaseToModel(ChavePixDynamo entity){
+        validateObject(entity);
+        return new ChavePix(
+                null,
+                entity.getCodBanco(),
+                entity.getCpfCnpjValorChave(),
+                entity.getNumeroConta(),
+                entity.getAgenciaConta(),
+                entity.getCpfCnpj(),
+                entity.getNome(),
+                entity.getTipoChave(),
+                entity.getValorChave()
+        );
     }
 
-    public ChavePixResponse modelToResponse(ChavePix chavePix) {
-        if(chavePix == null){
-            return null;
-        }
-
-        ChavePixResponse response = new ChavePixResponse();
-        response.setCodBanco(chavePix.getCodBanco());
-        response.setNumeroConta(chavePix.getNumeroConta());
-        response.setAgenciaConta(chavePix.getAgenciaConta());
-        response.setCpfCnpj(chavePix.getCpfCnpj());
-        response.setNome(chavePix.getNome());
-//        response.setTipoChave(chavePix.getTipoChave());
-        response.setValorChave(chavePix.getValorChave());
-
-        return response;
+    public ChavePixResponse modelToResponse(ChavePix chavePix){
+        validateObject(chavePix);
+        return ChavePixResponse.builder()
+                .transactionId(chavePix.getTransactionId())
+                .codBanco(chavePix.getCodBanco())
+                .cpfCnpj(chavePix.getCpfCnpj())
+                .numeroConta(chavePix.getNumeroConta())
+                .agenciaConta(chavePix.getAgenciaConta())
+                .nome(chavePix.getNome())
+                .tipoChave(chavePix.getTipoChave())
+                .valorChave(chavePix.getValorChave())
+                .build();
     }
 
     @Override
-    public ChavePix dtoToModel(ChavePixDTO chavePixDTO) {
-        if(chavePixDTO == null){
-            return null;
-        }
-
-        ChavePix chavePix = new ChavePix();
-        chavePix.setCodBanco(Integer.parseInt(chavePixDTO.getCodBanco()));
-        chavePix.setNumeroConta(chavePixDTO.getNumeroConta());
-        chavePix.setAgenciaConta(Integer.parseInt(chavePixDTO.getAgenciaConta()));
-        chavePix.setCpfCnpj(chavePixDTO.getCpfCnpj());
-        chavePix.setNome(chavePixDTO.getNome());
-//        chavePix.setTipoChave(stringToEnum(chavePix.getTipoChave().toString()));
-        chavePix.setValorChave(chavePixDTO.getValorChave());
-
-        return chavePix;
+    public ChavePixDynamo modelToDatabase(ChavePix chavePix){
+        validateObject(chavePix);
+        return ChavePixDynamo.builder()
+                .codBanco(chavePix.getCodBanco())
+                .cpfCnpjValorChave(chavePix.getCpfCnpjValorChave())
+                .cpfCnpj(chavePix.getCpfCnpj())
+                .numeroConta(chavePix.getNumeroConta())
+                .agenciaConta(chavePix.getAgenciaConta())
+                .nome(chavePix.getNome())
+                .tipoChave(chavePix.getTipoChave())
+                .valorChave(chavePix.getValorChave())
+                .build();
     }
 
     @Override
-    public ChavePixEntity modeltoEntity(ChavePix chavePix) {
-        if(chavePix == null){
-            return null;
-        }
-
-        ChavePixEntity entity = new ChavePixEntity();
-        entity.setCodBanco(chavePix.getCodBanco());
-        entity.setNumeroConta(chavePix.getNumeroConta());
-        entity.setAgenciaConta(chavePix.getAgenciaConta());
-        entity.setCpfCnpj(chavePix.getCpfCnpj());
-        entity.setNome(chavePix.getNome());
-//        entity.setTipoChave(chavePix.getTipoChave());
-        entity.setValorChave(chavePix.getValorChave());
-
-        return entity;
+    public ChavePix requestToModel(ChavePixRequest chavePixRequest){
+        validateObject(chavePixRequest);
+        return new ChavePix(
+                chavePixRequest.getTransactionId(),
+                chavePixRequest.getCodBanco(),
+                chavePixRequest.getNumeroConta(),
+                chavePixRequest.getAgenciaConta(),
+                chavePixRequest.getCpfCnpj(),
+                chavePixRequest.getNome(),
+                chavePixRequest.getTipoChave(),
+                chavePixRequest.getValorChave()
+        );
     }
 
     @Override
-    public ChavePixCadastroMensagem domainToMensagem(ChavePix chavePix) {
-        if(chavePix == null){
-            return null;
-        }
-
-        ChavePixCadastroMensagem mensagem = new ChavePixCadastroMensagem();
-        mensagem.setCodBanco(chavePix.getCodBanco().toString());
-        mensagem.setNumeroConta(chavePix.getNumeroConta());
-        mensagem.setAgenciaConta(chavePix.getAgenciaConta().toString());
-        mensagem.setCpfCnpj(chavePix.getCpfCnpj());
-        mensagem.setNome(chavePix.getNome());
-//        mensagem.setTipoChave(chavePix.getTipoChave().getDescricaoTipo());
-        mensagem.setValorChave(chavePix.getValorChave());
-
-        return mensagem;
+    public ChavePixDynamo requestToDatabase(ChavePixRequest chavePixRequest){
+        var model = requestToModel(chavePixRequest);
+        return modelToDatabase(model);
     }
 
-    private TipoChave stringToEnum(String descricaoTipo){
-        return Arrays.stream(TipoChave.values())
-                .filter(valorTipo -> descricaoTipo.equalsIgnoreCase(valorTipo.getDescricaoTipo()))
-                .findAny().orElseThrow( () -> new IllegalArgumentException("Tipo chave pix inválido.") );
+    @Override
+    public ChavePixResponse databaseToResponse(ChavePixDynamo entity){
+        var model = databaseToModel(entity);
+        return modelToResponse(model);
+    }
+
+    @Override
+    public ChavePixResponse requestToResponse(ChavePixRequest chavePixRequest){
+        var model = requestToModel(chavePixRequest);
+        return modelToResponse(model);
     }
 }

@@ -1,6 +1,6 @@
-package br.com.spi.domain.model.dto;
+package br.com.spi.infrastructure.dto;
 
-import br.com.spi.domain.model.TipoChave;
+import br.com.spi.infrastructure.enums.TipoChave;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -9,11 +9,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChavePixResponse{
+public class ChavePixRequest {
+    @JsonProperty("transaction_id")
+    private String transactionId;
     @JsonProperty("codigo_banco")
     private String codBanco;
-    @JsonProperty("cpf_cnpj_valor_chave")
-    private String cpgCnpjValorChave;
     @JsonProperty("numero_conta")
     private String numeroConta;
     @JsonProperty("agencia_conta")

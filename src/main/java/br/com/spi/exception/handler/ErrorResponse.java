@@ -1,16 +1,10 @@
 package br.com.spi.exception.handler;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
 public class ErrorResponse {
     private LocalDateTime timestamp;
     private Integer status;

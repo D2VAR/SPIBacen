@@ -1,9 +1,10 @@
 package br.com.spi.adapter.out.dynamo.entity;
 
-import br.com.spi.domain.model.TipoChave;
+import br.com.spi.infrastructure.enums.TipoChave;
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor

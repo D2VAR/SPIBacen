@@ -1,11 +1,8 @@
 package br.com.spi.adapter.out.dynamo.repository;
 
 import br.com.spi.adapter.out.dynamo.entity.ChavePixDynamo;
-import br.com.spi.adapter.out.dynamo.exception.ChavePixDuplicateException;
-import br.com.spi.port.out.DatabaseOutputPort;
-import br.com.spi.adapter.out.dynamo.entity.ChavePixEntity;
-import br.com.spi.infrastructure.mapper.ChavePixMapper;
-import br.com.spi.domain.model.ChavePix;
+import br.com.spi.exception.ChavePixDuplicateException;
+import br.com.spi.exception.ChavePixNotFoundException;
 import br.com.spi.port.out.DatabaseOutputPort;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
@@ -15,64 +12,55 @@ import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-public class ChavePixRepository implements DatabaseOutputPort {
-public class DynamoDBRepository implements DatabaseOutputPort {
-
-    private final ChavePixMapper mapper;
+public class ChavePixRepository implements DatabaseOutputPort{
     private final DynamoDBMapper dynamoDBMapper;
     @Value("${dynamodb.index.chave-pix}")
-    private String CHAVE_PIX_INDEX;
+    private String chavePixIndex;
 
     @Override
-    public void updateChavePix(ChavePixDynamo chavePix) {
+    public void updateChavePix(ChavePixDynamo chavePix){
         deleteChavePix(chavePix);
         saveChavePix(chavePix);
     }
+
     @Override
-    public void saveChavePix(ChavePixDynamo chavePix) {
+    public void saveChavePix(ChavePixDynamo chavePix){
         if (chavePixExists(chavePix.getValorChave()))
             throw new ChavePixDuplicateException("Chave Pix already exists!");
         dynamoDBMapper.save(chavePix);
     }
 
     @Override
-    public boolean chavePixExists(String valorChave) {
+    public boolean chavePixExists(String valorChave){
         var chavePix = getChavePix(valorChave);
         return chavePix.isPresent();
     }
-    @Override
-    public Optional<ChavePix> findChavePixByValor(String valorChave) {
-        log.info("Busca chave pix por valor. Valor Chave: {}", valorChave);
-        Optional<ChavePixEntity> chavePix = queryChavePixByValorChave(valorChave);
-        return chavePix.map(mapper::entityToModel);
-    }
 
     @Override
-    public void deleteChavePix(ChavePixDynamo chavePix) {
+    public void deleteChavePix(ChavePixDynamo chavePix){
         if (chavePixExists(chavePix.getValorChave())){
             dynamoDBMapper.delete(chavePix);
             return;
         }
-        throw new RuntimeException("Chave Pix does not exists!");
+        throw new ChavePixNotFoundException("Chave Pix does not exists!");
     }
-    private Optional<ChavePixEntity> queryChavePixByValorChave(String valorChave) {
-        DynamoDBQueryExpression<ChavePixEntity> queryExpression = new DynamoDBQueryExpression<>();
 
     @Override
-    public Optional<ChavePixDynamo> getChavePix(String valorChave) {
+    public Optional<ChavePixDynamo> getChavePix(String valorChave){
         var expNames = Map.of("#k1", "valor_chave");
         var expValues = Map.of(":v1", new AttributeValue().withS(valorChave));
 
         var queryExpression = getIndexQueryExpression(
                 expNames,
                 expValues,
-                CHAVE_PIX_INDEX
+                chavePixIndex
         );
 
         List<ChavePixDynamo> result = dynamoDBMapper.query(ChavePixDynamo.class, queryExpression);
@@ -82,28 +70,28 @@ public class DynamoDBRepository implements DatabaseOutputPort {
 
     private DynamoDBQueryExpression<ChavePixDynamo> getIndexQueryExpression(Map<String, String> expNames,
                                                                             Map<String, AttributeValue> expValues,
-                                                                            String indexName) {
+                                                                            String indexName){
         var exp = getDefaultQueryExpression(expNames, expValues);
         setIndexOnQueryExpression(exp, indexName);
         return exp;
     }
 
-    private DynamoDBQueryExpression<ChavePixDynamo> getDefaultQueryExpression(Map<String, String> expNames, Map<String, AttributeValue> expValues) {
+    private DynamoDBQueryExpression<ChavePixDynamo> getDefaultQueryExpression(Map<String, String> expNames, Map<String, AttributeValue> expValues){
         return new DynamoDBQueryExpression<ChavePixDynamo>()
                 .withExpressionAttributeNames(expNames)
                 .withExpressionAttributeValues(expValues)
                 .withKeyConditionExpression("#k1 = :v1 and begins_with(#k2, :v2)");
     }
 
-    private void setIndexOnQueryExpression(DynamoDBQueryExpression<ChavePixDynamo> exp, String indexName) {
+    private void setIndexOnQueryExpression(DynamoDBQueryExpression<ChavePixDynamo> exp, String indexName){
         exp.setIndexName(indexName);
         exp.setConsistentRead(false);
         exp.setKeyConditionExpression("#k1 = :v1");
     }
 
     @Override
-    public Optional<ChavePixDynamo> getChavePix(String codigoBanco, String cpfCnpj, String valorChave) {
-        var rangeKey = cpfCnpj+"#"+valorChave;
+    public Optional<ChavePixDynamo> getChavePix(String codigoBanco, String cpfCnpj, String valorChave){
+        var rangeKey = cpfCnpj + "#" + valorChave;
         var expNames = Map.of("#k1", "codigo_banco", "#k2", "cpf_cnpj_valor_chave");
         var expValues = Map.of(":v1", new AttributeValue().withS(codigoBanco), ":v2", new AttributeValue().withS(rangeKey));
 
@@ -118,24 +106,13 @@ public class DynamoDBRepository implements DatabaseOutputPort {
     }
 
     @Override
-    public List<ChavePixDynamo> getChavePixList(String codigoBanco, String cpfCnpj) {
+    public List<ChavePixDynamo> getChavePixList(String codigoBanco, String cpfCnpj){
         var expNames = Map.of("#k1", "codigo_banco", "#k2", "cpf_cnpj_valor_chave");
         var expValues = Map.of(":v1", new AttributeValue().withS(codigoBanco), ":v2", new AttributeValue().withS(codigoBanco));
-
         var queryExpression = getDefaultQueryExpression(
                 expNames,
                 expValues
         );
-
-        List<ChavePixDynamo> result = dynamoDBMapper.query(ChavePixDynamo.class, queryExpression);
-
-        return result;
-    }
-
-    @Override
-    public void salvarChavePix(ChavePix chavePix) {
-        log.info("Persistencia de chave pix na base de dados no Bacen. Chave Pix: {}", chavePix);
-        ChavePixEntity entity = mapper.modeltoEntity(chavePix);
-        dynamoDBMapper.save(entity);
+        return dynamoDBMapper.query(ChavePixDynamo.class, queryExpression);
     }
 }

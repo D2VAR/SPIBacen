@@ -1,7 +1,7 @@
 package br.com.spi.port.in;
 
-import br.com.spi.adapter.in.rest.controller.dto.ChavePixRequest;
-import br.com.spi.domain.model.dto.ChavePixResponse;
+import br.com.spi.infrastructure.dto.ChavePixRequest;
+import br.com.spi.infrastructure.dto.ChavePixResponse;
 
 public interface CrudChavePixInputPort{
     ChavePixResponse getChavePix(String valorChave);

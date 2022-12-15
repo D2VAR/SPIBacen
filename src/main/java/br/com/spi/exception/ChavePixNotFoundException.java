@@ -1,4 +1,4 @@
-package br.com.spi.adapter.out.dynamo.exception;
+package br.com.spi.exception;
 
 public class ChavePixNotFoundException extends RuntimeException{
     public ChavePixNotFoundException(String msg){

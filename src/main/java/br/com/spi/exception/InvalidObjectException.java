@@ -1,4 +1,4 @@
-package br.com.spi.domain.exception;
+package br.com.spi.exception;
 
 public class InvalidObjectException extends RuntimeException{
     public InvalidObjectException(String msg){
