@@ -1,3 +1,4 @@
+## Banco de Dados DynamoDB
 aws:
   access:
     key:
@@ -5,5 +6,45 @@ aws:
       secret: secretAWSDynamoDB
 dynamodb:
   service:
-    region: sa-east-1
-    endpoint: localhost:8000
+    region: us-east-1
+    endpoint: http://dynamodb:4566
+
+  index:
+    chave-pix: ChavePix-index
+
+## KAFKA
+topic:
+  name:
+    retorno:
+      success: topico-retorno-cadastro-chave-pix-ok
+      fail: topico-retorno-cadastro-chave-pix-falha
+    envio: topico-envio-cadastro-chave-pix
+
+
+## Kafka Producer
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: http://172.20.0.5:29092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "*"
+## Kafka Consumer
+    consumer:
+      group-id: group-bacen
+      bootstrap-servers: http://172.20.0.5:29092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "*"
+    listener:
+      ack-mode: MANUAL
