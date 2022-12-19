@@ -1,5 +1,6 @@
 package br.com.spi.infrastructure.dto.transacao;
 
+import br.com.spi.infrastructure.enums.TipoChave;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -18,7 +19,7 @@ public class TransacaoPixRequest {
     @JsonProperty("cpf_cnpj")
     private String cpfCnpj;
     @JsonProperty("tipo_chave")
-    private String tipoChave;
+    private TipoChave tipoChave;
     @JsonProperty("chave_destino")
     private String chaveDestino;
     @JsonProperty("valor_transferencia")

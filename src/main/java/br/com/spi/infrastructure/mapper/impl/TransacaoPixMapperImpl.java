@@ -17,12 +17,12 @@ public class TransacaoPixMapperImpl implements TransacaoPixMapper {
         validateObject(request);
         return new TransacaoValidadaResponse(
                 request.getTransactionId(),
-                request.getPixRealizado(),
                 request.getNome(),
                 request.getCpfCnpj(),
+                request.getTipoChave(),
                 request.getChaveDestino(),
                 request.getValor(),
-                request.getCodBancoDestino()
+                request.getCodBancoOrigem()
         );
     }
 
@@ -33,9 +33,10 @@ public class TransacaoPixMapperImpl implements TransacaoPixMapper {
                 request.getTransactionId(),
                 request.getNome(),
                 request.getCpfCnpj(),
+                request.getTipoChave(),
                 request.getChaveDestino(),
                 request.getValor(),
-                request.getCodBancoDestino()
+                request.getCodBancoOrigem()
         );
     }
 }

@@ -24,7 +24,6 @@ public class TransacaoPixProducer implements TransacaoPixOutputPort {
     public void enviarPix(TransacaoPixResponse response) {
         sendTransacaoPixToTopic(response,topic);
         log.info("#### Transacao Pix enviada - mensagem: {}", response);
-
     }
 
     private void sendTransacaoPixToTopic(TransacaoPixResponse response, String topic){
