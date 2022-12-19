@@ -17,10 +17,12 @@ public class TransacaoPixRequest {
     private String nome;
     @JsonProperty("cpf_cnpj")
     private String cpfCnpj;
+    @JsonProperty("tipo_chave")
+    private String tipoChave;
     @JsonProperty("chave_destino")
     private String chaveDestino;
     @JsonProperty("valor_transferencia")
     private BigDecimal valor;
-    @JsonProperty("codigo_banco_destino")
-    private String codBancoDestino;
+    @JsonProperty("codigo_banco_origem")
+    private String codBancoOrigem;
 }
