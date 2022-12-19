@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class CadastroChavePixConsumer {
     private final ChavePixRegistrationInputPort inputPort;
 
-    @KafkaListener(id="${spring.kafka.consumer.group-id}", topics = "${topic.name.envio}")
+    @KafkaListener(id="${spring.kafka.consumer.group-id}", topics = "${topic.name.envio.cadastro}")
     public void listen(ConsumerRecord<String, String> mensagemKafka, Acknowledgment ack) {
         try {
             processConsumerRecord(mensagemKafka);

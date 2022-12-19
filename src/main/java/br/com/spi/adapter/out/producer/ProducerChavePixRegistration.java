@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class ProducerChavePixRegistration implements ChavePixRegistrationOutputPort{
-    @Value("${topic.name.retorno.success}")
+    @Value("${topic.name.retorno.cadastro.success}")
     private String topicSuccess;
-    @Value("${topic.name.retorno.fail}")
+    @Value("${topic.name.retorno.cadastro.fail}")
     private String topicFailure;
     private final KafkaTemplate<String, ChavePixResponse> kafkaTemplate;
 
