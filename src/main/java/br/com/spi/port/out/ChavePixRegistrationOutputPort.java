@@ -1,6 +1,6 @@
 package br.com.spi.port.out;
 
-import br.com.spi.infrastructure.dto.ChavePixResponse;
+import br.com.spi.infrastructure.dto.chave.ChavePixResponse;
 
 public interface ChavePixRegistrationOutputPort{
     void notifySuccessfulRegistration(ChavePixResponse response);

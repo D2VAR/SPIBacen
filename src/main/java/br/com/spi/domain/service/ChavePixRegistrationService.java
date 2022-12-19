@@ -1,6 +1,6 @@
 package br.com.spi.domain.service;
 
-import br.com.spi.infrastructure.dto.ChavePixRequest;
+import br.com.spi.infrastructure.dto.chave.ChavePixRequest;
 import br.com.spi.infrastructure.mapper.ChavePixMapper;
 import br.com.spi.port.in.ChavePixRegistrationInputPort;
 import br.com.spi.port.in.CrudChavePixInputPort;
@@ -19,13 +19,13 @@ public class ChavePixRegistrationService implements ChavePixRegistrationInputPor
 
     @Override
     public void registerChavePix(ChavePixRequest chavePixRequest) {
-        var model = mapper.requestToResponse(chavePixRequest);
+        var response = mapper.requestToResponse(chavePixRequest);
         var existsResponse = crudChavePixInputPort.chavePixExists(chavePixRequest.getValorChave());
         if (existsResponse.getChaveExists()){
-            cadastroOutputPort.notifyRegistrationFailure(model);
+            cadastroOutputPort.notifyRegistrationFailure(response);
             return;
         }
         crudChavePixInputPort.saveChavePix(chavePixRequest);
-        cadastroOutputPort.notifySuccessfulRegistration(model);
+        cadastroOutputPort.notifySuccessfulRegistration(response);
     }
 }

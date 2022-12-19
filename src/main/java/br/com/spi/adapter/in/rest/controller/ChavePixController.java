@@ -1,6 +1,6 @@
 package br.com.spi.adapter.in.rest.controller;
 
-import br.com.spi.infrastructure.dto.ChavePixExistsResponse;
+import br.com.spi.infrastructure.dto.chave.ChavePixExistsResponse;
 import br.com.spi.port.in.CrudChavePixInputPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

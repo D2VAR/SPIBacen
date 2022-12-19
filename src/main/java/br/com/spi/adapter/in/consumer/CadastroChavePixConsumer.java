@@ -1,7 +1,7 @@
 package br.com.spi.adapter.in.consumer;
 
 
-import br.com.spi.infrastructure.dto.ChavePixRequest;
+import br.com.spi.infrastructure.dto.chave.ChavePixRequest;
 import br.com.spi.port.in.ChavePixRegistrationInputPort;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

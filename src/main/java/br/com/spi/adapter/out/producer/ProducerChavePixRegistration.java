@@ -1,8 +1,7 @@
 package br.com.spi.adapter.out.producer;
 
-import br.com.spi.infrastructure.dto.ChavePixResponse;
+import br.com.spi.infrastructure.dto.chave.ChavePixResponse;
 import br.com.spi.port.out.ChavePixRegistrationOutputPort;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;

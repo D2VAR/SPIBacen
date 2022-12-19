@@ -1,10 +1,10 @@
 package br.com.spi.domain.service;
 
-import br.com.spi.infrastructure.dto.ChavePixExistsResponse;
-import br.com.spi.infrastructure.dto.ChavePixRequest;
+import br.com.spi.infrastructure.dto.chave.ChavePixExistsResponse;
+import br.com.spi.infrastructure.dto.chave.ChavePixRequest;
 import br.com.spi.adapter.out.dynamo.entity.ChavePixDynamo;
 import br.com.spi.exception.ChavePixNotFoundException;
-import br.com.spi.infrastructure.dto.ChavePixResponse;
+import br.com.spi.infrastructure.dto.chave.ChavePixResponse;
 import br.com.spi.infrastructure.mapper.ChavePixMapper;
 import br.com.spi.port.in.CrudChavePixInputPort;
 import br.com.spi.port.out.DatabaseOutputPort;

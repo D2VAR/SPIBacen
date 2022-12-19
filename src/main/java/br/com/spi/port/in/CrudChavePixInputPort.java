@@ -1,8 +1,8 @@
 package br.com.spi.port.in;
 
-import br.com.spi.infrastructure.dto.ChavePixExistsResponse;
-import br.com.spi.infrastructure.dto.ChavePixRequest;
-import br.com.spi.infrastructure.dto.ChavePixResponse;
+import br.com.spi.infrastructure.dto.chave.ChavePixExistsResponse;
+import br.com.spi.infrastructure.dto.chave.ChavePixRequest;
+import br.com.spi.infrastructure.dto.chave.ChavePixResponse;
 
 public interface CrudChavePixInputPort{
     ChavePixResponse getChavePix(String valorChave);
