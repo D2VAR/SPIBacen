@@ -1,5 +1,6 @@
 package br.com.spi.adapter.in.consumer;
 
+import br.com.spi.exception.TransacaoValidadaParseException;
 import br.com.spi.infrastructure.dto.transacao.TransacaoValidadaRequest;
 import br.com.spi.port.out.ValidacaoTransacaoInputPort;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,6 +26,8 @@ public class TransacaoPixValidadaConsumer {
             inputPort.retornarValidacao(request);
         } catch (JsonProcessingException ex) {
             log.error("#### Error consuming message -> {},{}", ex.getMessage(), ex.getStackTrace());
+            throw new TransacaoValidadaParseException("Erro ao converter mensagem recebida",ex);
+
         } finally {
             ack.acknowledge();
         }
@@ -37,6 +40,8 @@ public class TransacaoPixValidadaConsumer {
             inputPort.retornarValidacao(request);
         } catch (JsonProcessingException ex) {
             log.error("#### Error consuming message -> {},{}", ex.getMessage(), ex.getStackTrace());
+            throw new TransacaoValidadaParseException("Erro ao converter mensagem recebida",ex);
+
         } finally {
             ack.acknowledge();
         }

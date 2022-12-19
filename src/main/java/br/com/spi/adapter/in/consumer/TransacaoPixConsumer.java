@@ -1,5 +1,6 @@
 package br.com.spi.adapter.in.consumer;
 
+import br.com.spi.exception.TransacaoPixParseException;
 import br.com.spi.infrastructure.dto.transacao.TransacaoPixRequest;
 import br.com.spi.port.in.TransacaoPixInputPort;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,6 +25,8 @@ public class TransacaoPixConsumer {
             processConsumerRecord(mensagemKafka);
         } catch (JsonProcessingException ex) {
             log.error("#### Error consuming message -> {},{}", ex.getMessage(), ex.getStackTrace());
+            throw new TransacaoPixParseException("Erro ao converter mensagem recebida",ex);
+
         } finally {
             ack.acknowledge();
         }
