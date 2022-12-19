@@ -1,8 +1,10 @@
 package br.com.spi.domain.service;
 
+import br.com.spi.exception.ChavePixNotFoundException;
 import br.com.spi.infrastructure.dto.transacao.TransacaoPixRequest;
 import br.com.spi.infrastructure.dto.transacao.TransacaoValidadaRequest;
 import br.com.spi.infrastructure.mapper.TransacaoPixMapper;
+import br.com.spi.port.in.CrudChavePixInputPort;
 import br.com.spi.port.in.TransacaoPixInputPort;
 import br.com.spi.port.out.TransacaoPixOutputPort;
 import br.com.spi.port.out.ValidacaoTransacaoInputPort;
@@ -16,6 +18,7 @@ public class TransacaoPixService implements TransacaoPixInputPort, ValidacaoTran
 
     private final TransacaoPixOutputPort transacaoPixOutputPort;
     private final ValidacaoTransacaoOutputPort validacaoOutputPort;
+    private final CrudChavePixInputPort chavePixInputPort;
 
     private final TransacaoPixMapper mapper;
 
@@ -23,6 +26,10 @@ public class TransacaoPixService implements TransacaoPixInputPort, ValidacaoTran
     public void enviarTransacaoPix(TransacaoPixRequest request) {
 
         var response = mapper.requestToResponse(request);
+        var keyExists = chavePixInputPort.chavePixExists(request.getChaveDestino());
+        if(!keyExists.getChaveExists()){
+            throw new ChavePixNotFoundException("Falha na transação. Chave destino não localizada.");
+        }
         transacaoPixOutputPort.enviarPix(response);
     }
 
