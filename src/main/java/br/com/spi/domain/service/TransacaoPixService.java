@@ -19,7 +19,6 @@ public class TransacaoPixService implements TransacaoPixInputPort, ValidacaoTran
     private final TransacaoPixOutputPort transacaoPixOutputPort;
     private final ValidacaoTransacaoOutputPort validacaoOutputPort;
     private final CrudChavePixInputPort chavePixInputPort;
-
     private final TransacaoPixMapper mapper;
 
     @Override
@@ -34,14 +33,12 @@ public class TransacaoPixService implements TransacaoPixInputPort, ValidacaoTran
     }
 
     @Override
-    public void retornarSucesso(TransacaoValidadaRequest request) {
+    public void retornarValidacao(TransacaoValidadaRequest request) {
         var response = mapper.validacaoToResponse(request);
+        if (response.getPixRealizado().equals(Boolean.FALSE)){
+            validacaoOutputPort.notificaFalha(response);
+            return;
+        }
         validacaoOutputPort.notificaSucesso(response);
-    }
-
-    @Override
-    public void retornarFalha(TransacaoValidadaRequest request) {
-        var response = mapper.validacaoToResponse(request);
-        validacaoOutputPort.notificaFalha(response);
     }
 }
