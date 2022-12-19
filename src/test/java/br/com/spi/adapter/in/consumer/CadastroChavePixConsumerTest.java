@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.kafka.support.Acknowledgment;
 
@@ -22,6 +21,8 @@ class CadastroChavePixConsumerTest {
 
     @Mock
     private ChavePixRegistrationInputPort inputPort;
+    @Mock
+    Acknowledgment ack;
     @InjectMocks
     private CadastroChavePixConsumer consumer;
 
@@ -29,7 +30,6 @@ class CadastroChavePixConsumerTest {
     @DisplayName("deveVerificarSeMensagemDoTopicoKafkaFoiConsumida")
     void listen() {
 
-        Acknowledgment ack = Mockito.mock(Acknowledgment.class);
         String mensagemKafka = "{\"transaction_id\":\"dd09838c-8a32-4a4c-8d4e-e3d0078719bc\",\"codigo_banco\":\"341\",\"numero_conta\":\"3213214\",\"agencia_conta\":\"4040\",\"cpf_cnpj\":\"33344455567\",\"nome\":\"cliente\",\"tipo_chave\":\"EMAIL\",\"valor_chave\":\"cliente@teste.com\"}";
         ConsumerRecord<String, String> payload = new ConsumerRecord<>("topic",1,1L,"key",mensagemKafka);
 
@@ -46,7 +46,6 @@ class CadastroChavePixConsumerTest {
     @DisplayName("deveLancarExceptionDeParseamentoIncorreto")
     void listenThrowsException() {
 
-        Acknowledgment ack = Mockito.mock(Acknowledgment.class);
         String mensagemKafka = "{\"id\":\"chaveCampoIdIncorreta\",\"codigo_banco\":\"341\",\"numero_conta\":\"3213214\",\"agencia_conta\":\"4040\",\"cpf_cnpj\":\"33344455567\",\"nome\":\"cliente\",\"tipo_chave\":\"EMAIL\",\"valor_chave\":\"cliente@teste.com\"}";
         ConsumerRecord<String, String> payload = new ConsumerRecord<>("topic",1,1L,"key",mensagemKafka);
 
