@@ -15,6 +15,8 @@ public class TransacaoValidadaRequest {
 
     @JsonProperty("transaction_id")
     private String transactionId;
+    @JsonProperty("pix_realizado")
+    private Boolean pixRealizado;
     @JsonProperty("nome")
     private String nome;
     @JsonProperty("cpf_cnpj")

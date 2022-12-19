@@ -30,14 +30,4 @@ public class TransacaoValidadaResponse {
     @JsonProperty("codigo_banco_origem")
     private String codBancoOrigem;
 
-    public TransacaoValidadaResponse(String transactionId, String nome, String cpfCnpj, TipoChave tipoChave,
-                                     String chaveDestino, BigDecimal valor, String codBancoOrigem) {
-        this.transactionId = transactionId;
-        this.nome = nome;
-        this.cpfCnpj = cpfCnpj;
-        this.tipoChave = tipoChave;
-        this.chaveDestino = chaveDestino;
-        this.valor = valor;
-        this.codBancoOrigem = codBancoOrigem;
-    }
 }
