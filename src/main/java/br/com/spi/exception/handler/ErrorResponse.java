@@ -9,5 +9,4 @@ public class ErrorResponse {
     private LocalDateTime timestamp;
     private Integer status;
     private String message;
-    private String path;
 }

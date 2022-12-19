@@ -23,14 +23,16 @@ public class CadastroChavePixConsumer {
         try {
             processConsumerRecord(mensagemKafka);
         } catch (JsonProcessingException ex) {
-            log.error("#### Error consuming message -> {},{}", ex.getMessage(), ex.getStackTrace());
+            log.error("# Error consuming Chave Pix registration message -> {}, {}",
+                    mensagemKafka.key(), ex.getMessage());
         } finally {
             ack.acknowledge();
         }
     }
 
     private void processConsumerRecord(ConsumerRecord<String, String> mensagemKafka) throws JsonProcessingException{
-        log.info("#### Message consumed -> {}, topic -> {}", mensagemKafka.value(), mensagemKafka.topic());
+        log.info("# Chave Pix registration message consumed -> Transaction Id: {}, Timestamp: {}",
+                mensagemKafka.key(), mensagemKafka.timestamp());
         var request = new ObjectMapper().readValue(mensagemKafka.value(), ChavePixRequest.class);
         inputPort.registerChavePix(request);
     }
