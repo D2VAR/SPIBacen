@@ -17,6 +17,7 @@ public class TransacaoPixMapperImpl implements TransacaoPixMapper {
         validateObject(request);
         return new TransacaoValidadaResponse(
                 request.getTransactionId(),
+                request.getPixRealizado(),
                 request.getNome(),
                 request.getCpfCnpj(),
                 request.getTipoChave(),
