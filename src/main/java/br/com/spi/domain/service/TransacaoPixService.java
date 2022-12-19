@@ -1,6 +1,7 @@
 package br.com.spi.domain.service;
 
 import br.com.spi.infrastructure.dto.transacao.TransacaoPixRequest;
+import br.com.spi.infrastructure.dto.transacao.TransacaoValidadaRequest;
 import br.com.spi.infrastructure.mapper.TransacaoPixMapper;
 import br.com.spi.port.in.TransacaoPixInputPort;
 import br.com.spi.port.out.TransacaoPixOutputPort;
@@ -26,14 +27,14 @@ public class TransacaoPixService implements TransacaoPixInputPort, ValidacaoTran
     }
 
     @Override
-    public void retornarSucesso(TransacaoPixRequest request) {
-        var response = mapper.requestToResponse(request);
+    public void retornarSucesso(TransacaoValidadaRequest request) {
+        var response = mapper.validacaoToResponse(request);
         validacaoOutputPort.notificaSucesso(response);
     }
 
     @Override
-    public void retornarFalha(TransacaoPixRequest request) {
-        var response = mapper.requestToResponse(request);
+    public void retornarFalha(TransacaoValidadaRequest request) {
+        var response = mapper.validacaoToResponse(request);
         validacaoOutputPort.notificaFalha(response);
     }
 }
