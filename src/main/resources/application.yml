@@ -19,21 +19,21 @@ topic:
       cadastro:
         success: topico-retorno-cadastro-chave-pix-ok
         fail: topico-retorno-cadastro-chave-pix-falha
-      transacao:
-        success: topico-recebedor-retorno-transacao-pix-ok
-        fail: topico-recebedor-retorno-transacao-pix-falha
     envio:
       cadastro: topico-envio-cadastro-chave-pix
     recebedor:
       envio:
         pix: topico-recebedor-envio-transacao-pix
+      retorno:
+        success: topico-recebedor-retorno-transacao-pix-ok
+        fail: topico-recebedor-retorno-transacao-pix-falha
     pagador:
       envio:
         pix: topico-pagador-envio-transacao-pix
       retorno:
         success: topico-pagador-retorno-transacao-pix-ok
         fail: topico-pagador-retorno-transacao-pix-falha
-    conclusao:
+    resultado:
       success: topico-fim-transacao-pix-ok
       fail: topico-fim-transacao-pix-falha
 
