@@ -18,7 +18,7 @@ public class TransacaoPixValidadaConsumer {
 
     private final ValidacaoTransacaoInputPort inputPort;
 
-    @KafkaListener(id="group-validacao-bacen", topics = "${topic.name.recebedor.retorno.success}")
+    @KafkaListener(id="group-validacao-bacen1", topics = "${topic.name.recebedor.retorno.success}")
     public void listenSuccess(ConsumerRecord<String, String> mensagemKafka, Acknowledgment ack) {
         try {
             var request = processConsumerRecord(mensagemKafka);
@@ -30,7 +30,7 @@ public class TransacaoPixValidadaConsumer {
         }
     }
 
-    @KafkaListener(id="group-validacao-bacen", topics = "${topic.name.recebedor.retorno.fail}")
+    @KafkaListener(id="group-validacao-bacen2", topics = "${topic.name.recebedor.retorno.fail}")
     public void listenFail(ConsumerRecord<String, String> mensagemKafka, Acknowledgment ack) {
         try {
             var request = processConsumerRecord(mensagemKafka);
