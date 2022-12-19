@@ -22,7 +22,7 @@ public class TransacaoPixValidadaConsumer {
     public void listenSuccess(ConsumerRecord<String, String> mensagemKafka, Acknowledgment ack) {
         try {
             var request = processConsumerRecord(mensagemKafka);
-            inputPort.retornarSucesso(request);
+            inputPort.retornarValidacao(request);
         } catch (JsonProcessingException ex) {
             log.error("#### Error consuming message -> {},{}", ex.getMessage(), ex.getStackTrace());
         } finally {
@@ -34,7 +34,7 @@ public class TransacaoPixValidadaConsumer {
     public void listenFail(ConsumerRecord<String, String> mensagemKafka, Acknowledgment ack) {
         try {
             var request = processConsumerRecord(mensagemKafka);
-            inputPort.retornarFalha(request);
+            inputPort.retornarValidacao(request);
         } catch (JsonProcessingException ex) {
             log.error("#### Error consuming message -> {},{}", ex.getMessage(), ex.getStackTrace());
         } finally {
