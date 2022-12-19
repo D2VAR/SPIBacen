@@ -2,7 +2,6 @@ package br.com.spi.adapter.out.producer;
 
 import br.com.spi.infrastructure.dto.ChavePixResponse;
 import br.com.spi.port.out.ChavePixRegistrationOutputPort;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -23,13 +22,15 @@ public class ProducerChavePixRegistration implements ChavePixRegistrationOutputP
     @Override
     public void notifySuccessfulRegistration(ChavePixResponse response){
         sendChavePixResponseToTopic(response, topicSuccess);
-        log.info("#### Chave pix cadastrada - mensagem: {}", response);
+        log.info("## Chave pix registrated! - Transaction Id: {}, Chave Pix: {}",
+                response.getTransactionId(), response.getValorChave());
     }
 
     @Override
     public void notifyRegistrationFailure(ChavePixResponse response){
         sendChavePixResponseToTopic(response, topicFailure);
-        log.info("#### Erro cadastro chave pix - mensagem: {}", response);
+        log.info("## Error registering Chave Pix - Transaction Id: {}, Chave Pix: {}",
+                response.getTransactionId(), response.getValorChave());
     }
 
     private void sendChavePixResponseToTopic(ChavePixResponse response, String topic){
