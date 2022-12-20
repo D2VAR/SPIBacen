@@ -32,7 +32,7 @@ public class ChavePixRegistrationConsumer{
     }
 
     private void processConsumerRecord(ConsumerRecord<String, String> mensagemKafka) throws JsonProcessingException{
-        log.info("#### Message consumed -> {}, topic -> {}", mensagemKafka.value(), mensagemKafka.topic());
+        log.info("#### Cadastro Chave Pix #### Message consumed -> {}, topic -> {}", mensagemKafka.value(), mensagemKafka.topic());
         var request = new ObjectMapper().readValue(mensagemKafka.value(), ChavePixRequest.class);
         inputPort.registerChavePix(request);
     }

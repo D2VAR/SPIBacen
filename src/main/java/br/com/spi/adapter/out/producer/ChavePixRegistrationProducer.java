@@ -20,16 +20,21 @@ public class ChavePixRegistrationProducer implements ChavePixRegistrationNotify{
 
     @Override
     public void notifySuccessfulRegistration(ChavePixResponse response){
-        sendChavePixResponseToTopic(response, topicSuccess);
+        var rightTopic = getRightTopic(topicSuccess, response.getCodBanco());
+        sendChavePixResponseToTopic(response, rightTopic);
         log.info("#### Chave pix cadastrada - mensagem: {}", response);
     }
 
     @Override
     public void notifyRegistrationFailure(ChavePixResponse response){
-        sendChavePixResponseToTopic(response, topicFailure);
+        var rightTopic = getRightTopic(topicFailure, response.getCodBanco());
+        sendChavePixResponseToTopic(response, rightTopic);
         log.info("#### Erro cadastro chave pix - mensagem: {}", response);
     }
 
+    private String getRightTopic(String topic, String codBanco){
+            return topic.concat("-").concat(codBanco);
+    }
     private void sendChavePixResponseToTopic(ChavePixResponse response, String topic){
         kafkaTemplate.send(topic, response.getTransactionId(), response);
         kafkaTemplate.flush();

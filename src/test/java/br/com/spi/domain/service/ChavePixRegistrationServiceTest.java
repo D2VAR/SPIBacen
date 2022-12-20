@@ -40,7 +40,7 @@ class ChavePixRegistrationServiceTest {
     void registerChavePixSuccess(){
 
         when(mapper.requestToResponse(request)).thenReturn(response);
-        when(inputPort.chavePixExistsWithBody(request.getValorChave())).thenReturn(existsResponse);
+        when(inputPort.chavePixExists(request.getValorChave())).thenReturn(false);
         doNothing().when(inputPort).saveChavePix(request);
         doNothing().when(outputPort).notifySuccessfulRegistration(response);
 
@@ -58,10 +58,9 @@ class ChavePixRegistrationServiceTest {
                 "3213214","4040","33344455567","cliente", TipoChave.EMAIL,"cliente@teste.com");
         ChavePixResponse response = new ChavePixResponse("dd09838c-8a32-4a4c-8d4e-e3d0078719bc","341",
                 "3213214","4040","33344455567","cliente", TipoChave.EMAIL,"cliente@teste.com");
-        ChavePixExistsResponse existsResponse = new ChavePixExistsResponse("341", Boolean.TRUE,TipoChave.EMAIL,"cliente@teste.com");
 
         when(mapper.requestToResponse(request)).thenReturn(response);
-        when(inputPort.chavePixExistsWithBody(request.getValorChave())).thenReturn(existsResponse);
+        when(inputPort.chavePixExists(request.getValorChave())).thenReturn(true);
         doNothing().when(outputPort).notifyRegistrationFailure(response);
 
         service.registerChavePix(request);

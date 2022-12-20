@@ -29,53 +29,31 @@ public class ValidacaoTransacaoPixProducer implements PixTransferFinalization{
 
     @Override
     public void notificaSucesso(TransacaoValidadaResponse response){
-        setRightSuccessTopics(response.getCodBancoOrigem());
-        sendTransacaoPixResponseToTopic(response, topicSenderSuccess);
-        sendTransacaoPixResponseToTopic(response, topicReceiverSuccess);
+        var senderTopic = getRightTopicSender(topicSenderSuccess, response.getCodBancoOrigem());
+        var receiverTopic = getRightTopicReceiver(topicReceiverSuccess, response.getCodBancoOrigem());
+        sendTransacaoPixResponseToTopic(response, senderTopic);
+        sendTransacaoPixResponseToTopic(response, receiverTopic);
         log.info("#### Retorno Transacao Pix Sucesso- mensagem: {}", response);
     }
 
-    private void setRightSuccessTopics(String codigoBancoOrigem){
-        if (ITAU.equals(codigoBancoOrigem)){
-            topicReceiverSuccess = updateTopicSufix(topicReceiverSuccess, ADA);
-            topicSenderSuccess = updateTopicSufix(topicSenderSuccess, ITAU);
-        } else{
-            topicReceiverSuccess = updateTopicSufix(topicReceiverSuccess, ITAU);
-            topicSenderSuccess = updateTopicSufix(topicSenderSuccess, ADA);
-        }
+    private String getRightTopicReceiver(String topic, String codBanco){
+        if (ITAU.equals(codBanco))
+            return topic.concat("-").concat(ADA);
+        return topic.concat("-").concat(ITAU);
     }
-
-    private String updateTopicSufix(String topic, String codBanco){
-        var list = topic.split("-");
-        var lastElement = list[list.length - 1];
-        var response = "";
-        if (lastElement.equals(ITAU)){
-            response = topic.replace(ITAU, codBanco);
-        } else if (lastElement.equals(ADA)){
-            response = topic.replace(ADA, codBanco);
-        } else{
-            response = topic.concat("-").concat(codBanco);
-        }
-        return response;
+    private String getRightTopicSender(String topic, String codBanco){
+        return topic.concat("-").concat(codBanco);
     }
 
     @Override
     public void notificaFalha(TransacaoValidadaResponse response){
-        setRightFailureTopics(response.getCodBancoOrigem());
-        sendTransacaoPixResponseToTopic(response, topicSenderFailure);
-        sendTransacaoPixResponseToTopic(response, topicReceiverFailure);
+        var senderTopic = getRightTopicSender(topicSenderFailure, response.getCodBancoOrigem());
+        var receiverTopic = getRightTopicReceiver(topicReceiverFailure, response.getCodBancoOrigem());
+        sendTransacaoPixResponseToTopic(response, senderTopic);
+        sendTransacaoPixResponseToTopic(response, receiverTopic);
         log.info("#### Retorno Transacao Pix Falha - mensagem: {}", response);
     }
 
-    private void setRightFailureTopics(String codigoBancoOrigem){
-        if (ITAU.equals(codigoBancoOrigem)){
-            topicReceiverFailure = updateTopicSufix(topicReceiverFailure, ADA);
-            topicSenderFailure = updateTopicSufix(topicSenderFailure, ITAU);
-        } else{
-            topicReceiverFailure = updateTopicSufix(topicReceiverFailure, ITAU);
-            topicSenderFailure = updateTopicSufix(topicSenderFailure, ADA);
-        }
-    }
 
     private void sendTransacaoPixResponseToTopic(TransacaoValidadaResponse response, String topic){
         kafkaTemplate.send(topic, response.getTransactionId(), response);

@@ -1,6 +1,5 @@
 package br.com.spi.domain.service;
 
-import br.com.spi.exception.ChavePixNotFoundException;
 import br.com.spi.infrastructure.dto.chave.ChavePixExistsResponse;
 import br.com.spi.infrastructure.dto.transacao.PixTransferRequest;
 import br.com.spi.infrastructure.dto.transacao.PixTransferResponse;
@@ -20,7 +19,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 
@@ -30,7 +28,7 @@ class TransacaoPixServiceTest {
     @Mock
     private PixTransferValidation pixTransferValidation;
     @Mock
-    private PixTransferFinalization validacaoOutputPort;
+    private PixTransferFinalization pixFinalization;
     @Mock
     private ChavePixInput chavePixInputPort;
     @Mock
@@ -53,7 +51,7 @@ class TransacaoPixServiceTest {
     void enviarTransacaoPixSuccess() {
 
         when(mapper.requestToResponse(request)).thenReturn(response);
-        when(chavePixInputPort.chavePixExistsWithBody(request.getChaveDestino())).thenReturn(existsResponse);
+        when(chavePixInputPort.chavePixExists(request.getChaveDestino())).thenReturn(existsResponse.isChaveExists());
         doNothing().when(pixTransferValidation).enviarPix(response);
 
         service.validatePix(request);
@@ -67,36 +65,37 @@ class TransacaoPixServiceTest {
     void enviarTransacaoPixFail() {
         existsResponse.setChaveExists(Boolean.FALSE);
         when(mapper.requestToResponse(request)).thenReturn(response);
-        when(chavePixInputPort.chavePixExistsWithBody(request.getChaveDestino())).thenReturn(existsResponse);
+        when(chavePixInputPort.chavePixExists(request.getChaveDestino())).thenReturn(false);
 
-        ChavePixNotFoundException ex = assertThrows(ChavePixNotFoundException.class, () -> service.validatePix(request));
+        service.validatePix(request);
 
         verify(mapper, times(1)).requestToResponse(request);
         verify(chavePixInputPort, times(1)).chavePixExists(request.getChaveDestino());
-        assertEquals("Falha na transação. Chave destino não localizada.", ex.getMessage());
+        verify(pixFinalization, times(1)).notificaFalha(any());
+
     }
 
     @Test
     void retornarValidacaoSucesso() {
         when(mapper.validacaoToResponse(validacaoRequest)).thenReturn(validacaoResponse);
-        doNothing().when(validacaoOutputPort).notificaSucesso(validacaoResponse);
+        doNothing().when(pixFinalization).notificaSucesso(validacaoResponse);
 
         service.retornarValidacao(validacaoRequest);
 
         verify(mapper, times(1)).validacaoToResponse(validacaoRequest);
-        verify(validacaoOutputPort, times(1)).notificaSucesso(validacaoResponse);
+        verify(pixFinalization, times(1)).notificaSucesso(validacaoResponse);
     }
 
     @Test
     void retornarValidacaoFalha() {
         validacaoResponse.setPixRealizado(Boolean.FALSE);
         when(mapper.validacaoToResponse(validacaoRequest)).thenReturn(validacaoResponse);
-        doNothing().when(validacaoOutputPort).notificaFalha(validacaoResponse);
+        doNothing().when(pixFinalization).notificaFalha(validacaoResponse);
 
         service.retornarValidacao(validacaoRequest);
 
         verify(mapper, times(1)).validacaoToResponse(validacaoRequest);
-        verify(validacaoOutputPort, times(1)).notificaFalha(validacaoResponse);
+        verify(pixFinalization, times(1)).notificaFalha(validacaoResponse);
     }
 
     private void startDTOs(){
