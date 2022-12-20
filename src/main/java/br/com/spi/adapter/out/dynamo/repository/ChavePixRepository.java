@@ -3,7 +3,7 @@ package br.com.spi.adapter.out.dynamo.repository;
 import br.com.spi.adapter.out.dynamo.entity.ChavePixDynamo;
 import br.com.spi.exception.ChavePixDuplicateException;
 import br.com.spi.exception.ChavePixNotFoundException;
-import br.com.spi.port.out.DatabaseOutputPort;
+import br.com.spi.port.out.DatabaseAccess;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
@@ -19,7 +19,7 @@ import java.util.Optional;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-public class ChavePixRepository implements DatabaseOutputPort{
+public class ChavePixRepository implements DatabaseAccess{
     private final DynamoDBMapper dynamoDBMapper;
     @Value("${dynamodb.index.chave-pix}")
     private String chavePixIndex;
