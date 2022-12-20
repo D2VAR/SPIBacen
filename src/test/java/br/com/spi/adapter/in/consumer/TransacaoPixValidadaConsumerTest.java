@@ -18,7 +18,6 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.doNothing;
 
 @ExtendWith(MockitoExtension.class)
-
 class TransacaoPixValidadaConsumerTest {
 
     @Mock
@@ -46,7 +45,7 @@ class TransacaoPixValidadaConsumerTest {
     @Test
     @DisplayName("deveVerificarSeMensagemDeFalhaDoTopicoKafkaFoiConsumida")
     void listenFail() {
-        String mensagemKafka = "{\"transaction_id\":\"dd09838c-8a32-4a4c-8d4e-e3d0078719bc\",\"pix_realizado\":\"FALSE\",\"codigo_banco\":\"341\",\"numero_conta\":\"3213214\",\"agencia_conta\":\"4040\",\"cpf_cnpj\":\"33344455567\",\"nome\":\"cliente\",\"tipo_chave\":\"EMAIL\",\"valor_chave\":\"cliente@teste.com\"}";
+        String mensagemKafka = "{\"transaction_id\":\"dd09838c-8a32-4a4c-8d4e-e3d0078719bc\",\"pix_realizado\":\"FALSE\",\"codigo_banco_origem\":\"341\",\"cpf_cnpj\":\"33344455567\",\"nome\":\"cliente\",\"tipo_chave\":\"EMAIL\",\"chave_destino\":\"cliente@teste.com\",\"valor_transferencia\":\"100.50\"}";
         ConsumerRecord<String, String> payload = new ConsumerRecord<>("topic",1,1L,"key",mensagemKafka);
 
         doNothing().when(inputPort).retornarValidacao(any());
