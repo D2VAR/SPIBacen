@@ -1,8 +1,8 @@
 package br.com.spi.infrastructure.mapper.impl;
 
 import br.com.spi.adapter.out.dynamo.entity.ChavePixDynamo;
-import br.com.spi.infrastructure.dto.ChavePixRequest;
-import br.com.spi.infrastructure.dto.ChavePixResponse;
+import br.com.spi.infrastructure.dto.chave.ChavePixRequest;
+import br.com.spi.infrastructure.dto.chave.ChavePixResponse;
 import br.com.spi.infrastructure.mapper.ChavePixMapper;
 import br.com.spi.domain.model.ChavePix;
 import org.springframework.stereotype.Component;

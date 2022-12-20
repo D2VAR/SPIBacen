@@ -1,4 +1,4 @@
-package br.com.spi.infrastructure.dto;
+package br.com.spi.infrastructure.dto.chave;
 
 import br.com.spi.infrastructure.enums.TipoChave;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,6 +7,7 @@ import lombok.*;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

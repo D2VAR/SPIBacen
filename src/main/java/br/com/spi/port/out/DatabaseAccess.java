@@ -5,7 +5,7 @@ import br.com.spi.adapter.out.dynamo.entity.ChavePixDynamo;
 import java.util.List;
 import java.util.Optional;
 
-public interface DatabaseOutputPort {
+public interface DatabaseAccess{
     void saveChavePix(ChavePixDynamo chavePix);
     void updateChavePix(ChavePixDynamo chavePix);
     void deleteChavePix(ChavePixDynamo chavePix);

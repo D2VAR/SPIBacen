@@ -1,4 +1,4 @@
-package br.com.spi.infrastructure.dto;
+package br.com.spi.infrastructure.dto.chave;
 
 import br.com.spi.infrastructure.enums.TipoChave;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,10 +7,11 @@ import lombok.*;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChavePixResponse{
+public class ChavePixRequest {
     @JsonProperty("transaction_id")
     private String transactionId;
     @JsonProperty("codigo_banco")
@@ -27,5 +28,5 @@ public class ChavePixResponse{
     private TipoChave tipoChave;
     @JsonProperty("valor_chave")
     private String valorChave;
-}
 
+}
