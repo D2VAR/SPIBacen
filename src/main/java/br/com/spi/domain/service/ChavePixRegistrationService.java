@@ -2,30 +2,30 @@ package br.com.spi.domain.service;
 
 import br.com.spi.infrastructure.dto.chave.ChavePixRequest;
 import br.com.spi.infrastructure.mapper.ChavePixMapper;
-import br.com.spi.port.in.ChavePixRegistrationInputPort;
-import br.com.spi.port.in.CrudChavePixInputPort;
-import br.com.spi.port.out.ChavePixRegistrationOutputPort;
+import br.com.spi.port.in.ChavePixRegistration;
+import br.com.spi.port.in.ChavePixInput;
+import br.com.spi.port.out.ChavePixRegistrationNotify;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ChavePixRegistrationService implements ChavePixRegistrationInputPort{
+public class ChavePixRegistrationService implements ChavePixRegistration{
 
     private final ChavePixMapper mapper;
-    private final CrudChavePixInputPort crudChavePixInputPort;
-    private final ChavePixRegistrationOutputPort cadastroOutputPort;
+    private final ChavePixInput chavePixInput;
+    private final ChavePixRegistrationNotify cadastroOutputPort;
 
 
     @Override
     public void registerChavePix(ChavePixRequest chavePixRequest) {
         var response = mapper.requestToResponse(chavePixRequest);
-        var existsResponse = crudChavePixInputPort.chavePixExists(chavePixRequest.getValorChave());
-        if (existsResponse.getChaveExists()){
+        var chavePixExists = chavePixInput.chavePixExists(chavePixRequest.getValorChave());
+        if (chavePixExists){
             cadastroOutputPort.notifyRegistrationFailure(response);
             return;
         }
-        crudChavePixInputPort.saveChavePix(chavePixRequest);
+        chavePixInput.saveChavePix(chavePixRequest);
         cadastroOutputPort.notifySuccessfulRegistration(response);
     }
 }

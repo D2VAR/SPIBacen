@@ -6,8 +6,8 @@ import br.com.spi.adapter.out.dynamo.entity.ChavePixDynamo;
 import br.com.spi.exception.ChavePixNotFoundException;
 import br.com.spi.infrastructure.dto.chave.ChavePixResponse;
 import br.com.spi.infrastructure.mapper.ChavePixMapper;
-import br.com.spi.port.in.CrudChavePixInputPort;
-import br.com.spi.port.out.DatabaseOutputPort;
+import br.com.spi.port.in.ChavePixInput;
+import br.com.spi.port.out.DatabaseAccess;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import static br.com.spi.infrastructure.validator.Validator.validateObject;
@@ -15,8 +15,8 @@ import static br.com.spi.infrastructure.validator.Validator.validateString;
 
 @Service
 @RequiredArgsConstructor
-public class CrudChavePix implements CrudChavePixInputPort{
-    private final DatabaseOutputPort repository;
+public class ChavePixService implements ChavePixInput{
+    private final DatabaseAccess repository;
     private final ChavePixMapper mapper;
 
     @Override
@@ -27,17 +27,25 @@ public class CrudChavePix implements CrudChavePixInputPort{
 
     private ChavePixDynamo getChavePixEntity(String valorChave){
         validateString(valorChave);
-        var databaseResponse = repository.getChavePix(valorChave);
-        return databaseResponse.orElseThrow(
+        return repository.getChavePix(valorChave).orElseThrow(
                 () -> new ChavePixNotFoundException("Chave PIX does not exist!"));
+
+    }
+
+    public boolean chavePixExists(String valorChave){
+        try{
+            getChavePixEntity(valorChave);
+            return true;
+        }catch (ChavePixNotFoundException e){
+            return false;
+        }
 
     }
 
 
     @Override
-    public ChavePixExistsResponse chavePixExists(String valorChave){
+    public ChavePixExistsResponse chavePixExistsWithBody(String valorChave){
         var response = ChavePixExistsResponse.builder()
-                .chaveExists(false)
                 .valorChave(valorChave)
                 .build();
         try{

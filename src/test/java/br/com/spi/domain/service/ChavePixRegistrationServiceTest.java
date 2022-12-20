@@ -5,8 +5,8 @@ import br.com.spi.infrastructure.dto.chave.ChavePixRequest;
 import br.com.spi.infrastructure.dto.chave.ChavePixResponse;
 import br.com.spi.infrastructure.enums.TipoChave;
 import br.com.spi.infrastructure.mapper.ChavePixMapper;
-import br.com.spi.port.in.CrudChavePixInputPort;
-import br.com.spi.port.out.ChavePixRegistrationOutputPort;
+import br.com.spi.port.in.ChavePixInput;
+import br.com.spi.port.out.ChavePixRegistrationNotify;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,9 +22,9 @@ class ChavePixRegistrationServiceTest {
     @Mock
     private ChavePixMapper mapper;
     @Mock
-    private CrudChavePixInputPort inputPort;
+    private ChavePixInput inputPort;
     @Mock
-    private ChavePixRegistrationOutputPort outputPort;
+    private ChavePixRegistrationNotify outputPort;
     @InjectMocks
     private ChavePixRegistrationService service;
 
@@ -40,7 +40,7 @@ class ChavePixRegistrationServiceTest {
     void registerChavePixSuccess(){
 
         when(mapper.requestToResponse(request)).thenReturn(response);
-        when(inputPort.chavePixExists(request.getValorChave())).thenReturn(existsResponse);
+        when(inputPort.chavePixExistsWithBody(request.getValorChave())).thenReturn(existsResponse);
         doNothing().when(inputPort).saveChavePix(request);
         doNothing().when(outputPort).notifySuccessfulRegistration(response);
 
@@ -61,7 +61,7 @@ class ChavePixRegistrationServiceTest {
         ChavePixExistsResponse existsResponse = new ChavePixExistsResponse("341", Boolean.TRUE,TipoChave.EMAIL,"cliente@teste.com");
 
         when(mapper.requestToResponse(request)).thenReturn(response);
-        when(inputPort.chavePixExists(request.getValorChave())).thenReturn(existsResponse);
+        when(inputPort.chavePixExistsWithBody(request.getValorChave())).thenReturn(existsResponse);
         doNothing().when(outputPort).notifyRegistrationFailure(response);
 
         service.registerChavePix(request);
@@ -76,6 +76,6 @@ class ChavePixRegistrationServiceTest {
                 "3213214","4040","33344455567","cliente", TipoChave.EMAIL,"cliente@teste.com");
         response = new ChavePixResponse("dd09838c-8a32-4a4c-8d4e-e3d0078719bc","341",
                 "3213214","4040","33344455567","cliente", TipoChave.EMAIL,"cliente@teste.com");
-        existsResponse = new ChavePixExistsResponse("341", Boolean.FALSE,TipoChave.EMAIL,"cliente@teste.com");
+        existsResponse = new ChavePixExistsResponse("341", false,TipoChave.EMAIL,"cliente@teste.com");
     }
 }

@@ -1,7 +1,7 @@
 package br.com.spi.adapter.in.consumer;
 
 import br.com.spi.exception.TransacaoValidadaParseException;
-import br.com.spi.port.out.ValidacaoTransacaoInputPort;
+import br.com.spi.port.in.ValidacaoTransacaoInputPort;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.DisplayName;
@@ -18,12 +18,12 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.doNothing;
 
 @ExtendWith(MockitoExtension.class)
-class TransacaoPixValidadaConsumerTest {
+class PixTransferValidationConsumerTest{
 
     @Mock
     private ValidacaoTransacaoInputPort inputPort;
     @InjectMocks
-    private TransacaoPixValidadaConsumer consumer;
+    private PixTransferValidationConsumer consumer;
     @Mock
     Acknowledgment ack;
 

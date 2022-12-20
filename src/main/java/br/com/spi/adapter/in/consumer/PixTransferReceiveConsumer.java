@@ -1,9 +1,8 @@
 package br.com.spi.adapter.in.consumer;
 
-
-import br.com.spi.exception.ChavePixParseException;
-import br.com.spi.infrastructure.dto.chave.ChavePixRequest;
-import br.com.spi.port.in.ChavePixRegistrationInputPort;
+import br.com.spi.exception.TransacaoPixParseException;
+import br.com.spi.infrastructure.dto.transacao.PixTransferRequest;
+import br.com.spi.port.in.PixTransferReceive;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -16,16 +15,18 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class CadastroChavePixConsumer {
-    private final ChavePixRegistrationInputPort inputPort;
+public class PixTransferReceiveConsumer{
 
-    @KafkaListener(id="${spring.kafka.consumer.group-id}", topics = "${topic.name.envio.cadastro}")
+    private final PixTransferReceive pixReceive;
+
+    @KafkaListener(id="${spring.kafka.consumer.group-id.transfer.receive}", topics = "${topic.name.pix.transfer.receive}")
     public void listen(ConsumerRecord<String, String> mensagemKafka, Acknowledgment ack) {
         try {
             processConsumerRecord(mensagemKafka);
         } catch (JsonProcessingException ex) {
             log.error("#### Error consuming message -> {},{}", ex.getMessage(), ex.getStackTrace());
-            throw new ChavePixParseException("Erro ao converter mensagem recebida",ex);
+            throw new TransacaoPixParseException("Erro ao converter mensagem recebida",ex);
+
         } finally {
             ack.acknowledge();
         }
@@ -33,7 +34,8 @@ public class CadastroChavePixConsumer {
 
     private void processConsumerRecord(ConsumerRecord<String, String> mensagemKafka) throws JsonProcessingException{
         log.info("#### Message consumed -> {}, topic -> {}", mensagemKafka.value(), mensagemKafka.topic());
-        var request = new ObjectMapper().readValue(mensagemKafka.value(), ChavePixRequest.class);
-        inputPort.registerChavePix(request);
+        var request = new ObjectMapper().readValue(mensagemKafka.value(), PixTransferRequest.class);
+        pixReceive.validatePix(request);
     }
+
 }

@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransacaoPixRequest {
+public class PixTransferResponse{
     @JsonProperty("transaction_id")
     private String transactionId;
     @JsonProperty("nome")

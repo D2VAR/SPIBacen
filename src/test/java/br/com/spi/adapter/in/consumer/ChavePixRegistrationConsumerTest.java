@@ -1,7 +1,7 @@
 package br.com.spi.adapter.in.consumer;
 
-import br.com.spi.exception.TransacaoPixParseException;
-import br.com.spi.port.in.TransacaoPixInputPort;
+import br.com.spi.exception.ChavePixParseException;
+import br.com.spi.port.in.ChavePixRegistration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.DisplayName;
@@ -12,32 +12,33 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.kafka.support.Acknowledgment;
 
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class TransacaoPixConsumerTest {
+class ChavePixRegistrationConsumerTest{
 
     @Mock
-    private TransacaoPixInputPort inputPort;
+    private ChavePixRegistration inputPort;
     @Mock
     Acknowledgment ack;
     @InjectMocks
-    private TransacaoPixConsumer consumer;
+    private ChavePixRegistrationConsumer consumer;
 
     @Test
     @DisplayName("deveVerificarSeMensagemDoTopicoKafkaFoiConsumida")
     void listen() {
-        String mensagemKafka = "{\"transaction_id\":\"dd09838c-8a32-4a4c-8d4e-e3d0078719bc\",\"nome\":\"cliente\",\"cpf_cnpj\":\"33344455567\",\"tipo_chave\":\"EMAIL\",\"chave_destino\":\"cliente@teste.com\",\"valor_transferencia\":\"100.50\",\"codigo_banco_origem\":\"341\"}";
+
+        String mensagemKafka = "{\"transaction_id\":\"dd09838c-8a32-4a4c-8d4e-e3d0078719bc\",\"codigo_banco\":\"341\",\"numero_conta\":\"3213214\",\"agencia_conta\":\"4040\",\"cpf_cnpj\":\"33344455567\",\"nome\":\"cliente\",\"tipo_chave\":\"EMAIL\",\"valor_chave\":\"cliente@teste.com\"}";
         ConsumerRecord<String, String> payload = new ConsumerRecord<>("topic",1,1L,"key",mensagemKafka);
 
-        doNothing().when(inputPort).enviarTransacaoPix(any());
+        doNothing().when(inputPort).registerChavePix(any());
         doNothing().when(ack).acknowledge();
 
         consumer.listen(payload,ack);
 
-        verify(inputPort,times(1)).enviarTransacaoPix(any());
+        verify(inputPort,times(1)).registerChavePix(any());
         verify(ack,times(1)).acknowledge();
     }
 
@@ -45,10 +46,10 @@ class TransacaoPixConsumerTest {
     @DisplayName("deveLancarExceptionDeParseamentoIncorreto")
     void listenThrowsException() {
 
-        String mensagemKafka = "{\"id\":\"chaveCampoIdIncorreta\",\"nome\":\"cliente\",\"cpf_cnpj\":\"33344455567\",\"tipo_chave\":\"EMAIL\",\"chave_destino\":\"cliente@teste.com\",\"valor_transferencia\":\"100.50\",\"codigo_banco_origem\":\"341\"}";
+        String mensagemKafka = "{\"id\":\"chaveCampoIdIncorreta\",\"codigo_banco\":\"341\",\"numero_conta\":\"3213214\",\"agencia_conta\":\"4040\",\"cpf_cnpj\":\"33344455567\",\"nome\":\"cliente\",\"tipo_chave\":\"EMAIL\",\"valor_chave\":\"cliente@teste.com\"}";
         ConsumerRecord<String, String> payload = new ConsumerRecord<>("topic",1,1L,"key",mensagemKafka);
 
-        TransacaoPixParseException ex = assertThrows(TransacaoPixParseException.class,
+        ChavePixParseException ex = assertThrows(ChavePixParseException.class,
                 () -> consumer.listen(payload,ack));
 
         verify(ack,times(1)).acknowledge();

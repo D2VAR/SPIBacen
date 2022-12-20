@@ -2,7 +2,7 @@ package br.com.spi.adapter.in.consumer;
 
 import br.com.spi.exception.TransacaoValidadaParseException;
 import br.com.spi.infrastructure.dto.transacao.TransacaoValidadaRequest;
-import br.com.spi.port.out.ValidacaoTransacaoInputPort;
+import br.com.spi.port.in.ValidacaoTransacaoInputPort;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +15,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class TransacaoPixValidadaConsumer {
+public class PixTransferValidationConsumer{
 
     private final ValidacaoTransacaoInputPort inputPort;
 
-    @KafkaListener(id="group-validacao-bacen1", topics = "${topic.name.recebedor.retorno.success}")
+    @KafkaListener(id="${spring.kafka.consumer.group-id.transfer.success}", topics = "${topic.name.pix.transfer.validation.success}")
     public void listenSuccess(ConsumerRecord<String, String> mensagemKafka, Acknowledgment ack) {
         try {
             var request = processConsumerRecord(mensagemKafka);
@@ -33,7 +33,7 @@ public class TransacaoPixValidadaConsumer {
         }
     }
 
-    @KafkaListener(id="group-validacao-bacen2", topics = "${topic.name.recebedor.retorno.fail}")
+    @KafkaListener(id="${spring.kafka.consumer.group-id.transfer.failure}", topics = "${topic.name.pix.transfer.validation.failure}")
     public void listenFail(ConsumerRecord<String, String> mensagemKafka, Acknowledgment ack) {
         try {
             var request = processConsumerRecord(mensagemKafka);
@@ -49,7 +49,6 @@ public class TransacaoPixValidadaConsumer {
 
     private TransacaoValidadaRequest processConsumerRecord(ConsumerRecord<String, String> mensagemKafka) throws JsonProcessingException{
         log.info("#### Message consumed -> {}, topic -> {}", mensagemKafka.value(), mensagemKafka.topic());
-        var request = new ObjectMapper().readValue(mensagemKafka.value(), TransacaoValidadaRequest.class);
-        return request;
+        return new ObjectMapper().readValue(mensagemKafka.value(), TransacaoValidadaRequest.class);
     }
 }

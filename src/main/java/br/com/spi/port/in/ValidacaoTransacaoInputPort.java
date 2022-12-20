@@ -1,4 +1,4 @@
-package br.com.spi.port.out;
+package br.com.spi.port.in;
 
 import br.com.spi.infrastructure.dto.transacao.TransacaoValidadaRequest;
 

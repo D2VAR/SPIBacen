@@ -6,7 +6,7 @@ import br.com.spi.infrastructure.dto.chave.ChavePixRequest;
 import br.com.spi.infrastructure.dto.chave.ChavePixResponse;
 import br.com.spi.infrastructure.enums.TipoChave;
 import br.com.spi.infrastructure.mapper.ChavePixMapper;
-import br.com.spi.port.out.DatabaseOutputPort;
+import br.com.spi.port.out.DatabaseAccess;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,14 +21,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class CrudChavePixTest {
+class ChavePixServiceTest{
 
     @Mock
-    private DatabaseOutputPort repository;
+    private DatabaseAccess repository;
     @Mock
     private ChavePixMapper mapper;
     @InjectMocks
-    private CrudChavePix crudChavePix;
+    private ChavePixService crudChavePix;
     ChavePixResponse response;
     ChavePixRequest request;
     ChavePixDynamo chaveDynamo;

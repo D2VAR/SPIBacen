@@ -1,7 +1,7 @@
 package br.com.spi.infrastructure.mapper.impl;
 
-import br.com.spi.infrastructure.dto.transacao.TransacaoPixRequest;
-import br.com.spi.infrastructure.dto.transacao.TransacaoPixResponse;
+import br.com.spi.infrastructure.dto.transacao.PixTransferRequest;
+import br.com.spi.infrastructure.dto.transacao.PixTransferResponse;
 import br.com.spi.infrastructure.dto.transacao.TransacaoValidadaRequest;
 import br.com.spi.infrastructure.dto.transacao.TransacaoValidadaResponse;
 import br.com.spi.infrastructure.mapper.TransacaoPixMapper;
@@ -17,7 +17,7 @@ public class TransacaoPixMapperImpl implements TransacaoPixMapper {
         validateObject(request);
         return new TransacaoValidadaResponse(
                 request.getTransactionId(),
-                request.getPixRealizado(),
+                request.isPixRealizado(),
                 request.getNome(),
                 request.getCpfCnpj(),
                 request.getTipoChave(),
@@ -28,9 +28,9 @@ public class TransacaoPixMapperImpl implements TransacaoPixMapper {
     }
 
     @Override
-    public TransacaoPixResponse requestToResponse(TransacaoPixRequest request) {
+    public PixTransferResponse requestToResponse(PixTransferRequest request) {
         validateObject(request);
-        return new TransacaoPixResponse(
+        return new PixTransferResponse(
                 request.getTransactionId(),
                 request.getNome(),
                 request.getCpfCnpj(),

@@ -1,7 +1,8 @@
 package br.com.spi.adapter.out.producer;
 
 import br.com.spi.infrastructure.dto.chave.ChavePixResponse;
-import br.com.spi.port.out.ChavePixRegistrationOutputPort;
+import br.com.spi.port.out.ChavePixRegistrationNotify;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -9,16 +10,14 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class ProducerChavePixRegistration implements ChavePixRegistrationOutputPort{
-    @Value("${topic.name.retorno.cadastro.success}")
+@RequiredArgsConstructor
+public class ChavePixRegistrationProducer implements ChavePixRegistrationNotify{
+    @Value("${topic.name.pix.key.send.success}")
     private String topicSuccess;
-    @Value("${topic.name.retorno.cadastro.fail}")
+    @Value("${topic.name.pix.key.send.failure}")
     private String topicFailure;
     private final KafkaTemplate<String, ChavePixResponse> kafkaTemplate;
 
-    public ProducerChavePixRegistration(KafkaTemplate<String, ChavePixResponse> kafkaTemplate){
-        this.kafkaTemplate = kafkaTemplate;
-    }
     @Override
     public void notifySuccessfulRegistration(ChavePixResponse response){
         sendChavePixResponseToTopic(response, topicSuccess);

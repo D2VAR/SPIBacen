@@ -12,11 +12,10 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransacaoValidadaResponse {
-
     @JsonProperty("transaction_id")
     private String transactionId;
     @JsonProperty("pix_realizado")
-    private Boolean pixRealizado;
+    private boolean pixRealizado;
     @JsonProperty("nome")
     private String nome;
     @JsonProperty("cpf_cnpj")
@@ -30,4 +29,13 @@ public class TransacaoValidadaResponse {
     @JsonProperty("codigo_banco_origem")
     private String codBancoOrigem;
 
+    public TransacaoValidadaResponse(PixTransferResponse response){
+        this.transactionId = response.getTransactionId();
+        this.nome = response.getNome();
+        this.cpfCnpj = response.getCpfCnpj();
+        this.tipoChave = response.getTipoChave();
+        this.chaveDestino = response.getChaveDestino();
+        this.valor = response.getValor();
+        this.codBancoOrigem = response.getCodBancoOrigem();
+    }
 }

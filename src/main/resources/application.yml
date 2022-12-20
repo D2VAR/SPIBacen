@@ -15,27 +15,30 @@ dynamodb:
 ## KAFKA
 topic:
   name:
-    retorno:
-      cadastro:
-        success: topico-retorno-cadastro-chave-pix-ok
-        fail: topico-retorno-cadastro-chave-pix-falha
-    envio:
-      cadastro: topico-envio-cadastro-chave-pix
-    recebedor:
-      envio:
-        pix: topico-recebedor-envio-transacao-pix
-      retorno:
-        success: topico-recebedor-retorno-transacao-pix-ok
-        fail: topico-recebedor-retorno-transacao-pix-falha
-    pagador:
-      envio:
-        pix: topico-pagador-envio-transacao-pix
-      retorno:
-        success: topico-pagador-retorno-transacao-pix-ok
-        fail: topico-pagador-retorno-transacao-pix-falha
-    resultado:
-      success: topico-fim-transacao-pix-ok
-      fail: topico-fim-transacao-pix-falha
+    pix:
+      key:
+        receive: topico-envio-cadastro-chave-pix
+        send:
+          success: topico-retorno-cadastro-chave-pix-ok
+          failure: topico-retorno-cadastro-chave-pix-falha
+
+      transfer:
+        receive: topico-pagador-envio-transacao-pix
+
+        sender:
+          finalization:
+            success: topico-pagador-retorno-transacao-pix-ok
+            failure: topico-pagador-retorno-transacao-pix-falha
+
+        receiver:
+          validation: topico-recebedor-envio-transacao-pix
+          finalization:
+            success: topico-fim-transacao-pix-ok
+            failure: topico-fim-transacao-pix-falha
+
+        validation:
+          success: topico-recebedor-retorno-transacao-pix-ok
+          failure: topico-recebedor-retorno-transacao-pix-falha
 
 
 
@@ -54,7 +57,12 @@ spring:
               packages: "*"
 ## Kafka Consumer
     consumer:
-      group-id: group-bacen
+      group-id:
+        key: bacen-key-registration
+        transfer:
+          receive: bacen-transfer
+          success: bacen-transfer-success
+          failure: bacen-transfer-failure
       bootstrap-servers: http://kafka:29092
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer

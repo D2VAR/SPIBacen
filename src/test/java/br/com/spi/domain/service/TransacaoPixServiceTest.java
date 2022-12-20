@@ -2,15 +2,15 @@ package br.com.spi.domain.service;
 
 import br.com.spi.exception.ChavePixNotFoundException;
 import br.com.spi.infrastructure.dto.chave.ChavePixExistsResponse;
-import br.com.spi.infrastructure.dto.transacao.TransacaoPixRequest;
-import br.com.spi.infrastructure.dto.transacao.TransacaoPixResponse;
+import br.com.spi.infrastructure.dto.transacao.PixTransferRequest;
+import br.com.spi.infrastructure.dto.transacao.PixTransferResponse;
 import br.com.spi.infrastructure.dto.transacao.TransacaoValidadaRequest;
 import br.com.spi.infrastructure.dto.transacao.TransacaoValidadaResponse;
 import br.com.spi.infrastructure.enums.TipoChave;
 import br.com.spi.infrastructure.mapper.TransacaoPixMapper;
-import br.com.spi.port.in.CrudChavePixInputPort;
-import br.com.spi.port.out.TransacaoPixOutputPort;
-import br.com.spi.port.out.ValidacaoTransacaoOutputPort;
+import br.com.spi.port.in.ChavePixInput;
+import br.com.spi.port.out.PixTransferValidation;
+import br.com.spi.port.out.PixTransferFinalization;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,18 +28,18 @@ import static org.mockito.Mockito.times;
 class TransacaoPixServiceTest {
 
     @Mock
-    private TransacaoPixOutputPort transacaoPixOutputPort;
+    private PixTransferValidation pixTransferValidation;
     @Mock
-    private ValidacaoTransacaoOutputPort validacaoOutputPort;
+    private PixTransferFinalization validacaoOutputPort;
     @Mock
-    private CrudChavePixInputPort chavePixInputPort;
+    private ChavePixInput chavePixInputPort;
     @Mock
     private TransacaoPixMapper mapper;
     @InjectMocks
-    TransacaoPixService service;
+    PixService service;
 
-    TransacaoPixRequest request;
-    TransacaoPixResponse response;
+    PixTransferRequest request;
+    PixTransferResponse response;
     TransacaoValidadaRequest validacaoRequest;
     TransacaoValidadaResponse validacaoResponse;
     ChavePixExistsResponse existsResponse;
@@ -53,23 +53,23 @@ class TransacaoPixServiceTest {
     void enviarTransacaoPixSuccess() {
 
         when(mapper.requestToResponse(request)).thenReturn(response);
-        when(chavePixInputPort.chavePixExists(request.getChaveDestino())).thenReturn(existsResponse);
-        doNothing().when(transacaoPixOutputPort).enviarPix(response);
+        when(chavePixInputPort.chavePixExistsWithBody(request.getChaveDestino())).thenReturn(existsResponse);
+        doNothing().when(pixTransferValidation).enviarPix(response);
 
-        service.enviarTransacaoPix(request);
+        service.validatePix(request);
 
         verify(mapper, times(1)).requestToResponse(request);
         verify(chavePixInputPort, times(1)).chavePixExists(request.getChaveDestino());
-        verify(transacaoPixOutputPort, times(1)).enviarPix(response);
+        verify(pixTransferValidation, times(1)).enviarPix(response);
     }
 
     @Test
     void enviarTransacaoPixFail() {
         existsResponse.setChaveExists(Boolean.FALSE);
         when(mapper.requestToResponse(request)).thenReturn(response);
-        when(chavePixInputPort.chavePixExists(request.getChaveDestino())).thenReturn(existsResponse);
+        when(chavePixInputPort.chavePixExistsWithBody(request.getChaveDestino())).thenReturn(existsResponse);
 
-        ChavePixNotFoundException ex = assertThrows(ChavePixNotFoundException.class, () -> service.enviarTransacaoPix(request));
+        ChavePixNotFoundException ex = assertThrows(ChavePixNotFoundException.class, () -> service.validatePix(request));
 
         verify(mapper, times(1)).requestToResponse(request);
         verify(chavePixInputPort, times(1)).chavePixExists(request.getChaveDestino());
@@ -100,14 +100,14 @@ class TransacaoPixServiceTest {
     }
 
     private void startDTOs(){
-        validacaoRequest = new TransacaoValidadaRequest("dd09838c-8a32-4a4c-8d4e-e3d0078719bc",Boolean.TRUE,"cliente","33344455567",
+        validacaoRequest = new TransacaoValidadaRequest("dd09838c-8a32-4a4c-8d4e-e3d0078719bc",true,"cliente","33344455567",
                 TipoChave.EMAIL,"recebedor@teste.com", BigDecimal.valueOf(100.50),"341");
-        validacaoResponse = new TransacaoValidadaResponse("dd09838c-8a32-4a4c-8d4e-e3d0078719bc",Boolean.TRUE,"cliente","33344455567",
+        validacaoResponse = new TransacaoValidadaResponse("dd09838c-8a32-4a4c-8d4e-e3d0078719bc",true,"cliente","33344455567",
                 TipoChave.EMAIL,"recebedor@teste.com", BigDecimal.valueOf(100.50),"341");
-        request = new TransacaoPixRequest("dd09838c-8a32-4a4c-8d4e-e3d0078719bc","cliente","33344455567",
+        request = new PixTransferRequest("dd09838c-8a32-4a4c-8d4e-e3d0078719bc","cliente","33344455567",
                 TipoChave.EMAIL,"recebedor@teste.com", BigDecimal.valueOf(100.50),"341");
-        response = new TransacaoPixResponse("dd09838c-8a32-4a4c-8d4e-e3d0078719bc","cliente","33344455567",
+        response = new PixTransferResponse("dd09838c-8a32-4a4c-8d4e-e3d0078719bc","cliente","33344455567",
                 TipoChave.EMAIL,"recebedor@teste.com", BigDecimal.valueOf(100.50),"341");
-        existsResponse = new ChavePixExistsResponse("341", Boolean.TRUE, TipoChave.EMAIL,"cliente@teste.com");
+        existsResponse = new ChavePixExistsResponse("341", true, TipoChave.EMAIL,"cliente@teste.com");
     }
 }
